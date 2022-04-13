@@ -66,6 +66,10 @@ import { MonthwiseSalesComponent } from './monthwise-sales/monthwise-sales.compo
 import { WastageReportComponent } from './wastage-report/wastage-report.component'
 import { ProductionsComponent } from './productions/productions.component'
 import { PurchasewiseReportComponent } from './purchasewise-report/purchasewise-report.component'
+import { WastageProductComponent } from './wastage-product/wastage-product.component'
+import { CompanyComponent } from './company/company.component'
+import { OutletComponent } from './outlet/outlet.component'
+import { UserComponent } from './user/user.component'
 
 
 
@@ -108,6 +112,11 @@ const routes: Routes = [
     path: 'customer',
     component: CustomerComponent,
     data: { title: 'Customer App' },
+  },
+  {
+    path: 'user',
+    component: UserComponent,
+    data: { title: 'user App' },
   },
   {
     path: 'addproduct',
@@ -264,6 +273,26 @@ const routes: Routes = [
     path: 'PurchasewiseReport',
     component: PurchasewiseReportComponent,
     data: { title: 'PurchasewiseReport App' },
+  },
+  {
+    path: 'WastageProduct',
+    component: WastageProductComponent,
+    data: { title: 'WastageProduct App' },
+  },
+  {
+    path: 'Company',
+    component: CompanyComponent,
+    data: { title: 'Company App' },
+  },
+  {
+    path: 'Outlet',
+    component: OutletComponent,
+    data: { title: 'Outlet App' },
+  },
+  {
+    path: 'WastageProduct',
+    component: WastageProductComponent,
+    data: { title: 'WastageProduct App' },
   },
 
   {

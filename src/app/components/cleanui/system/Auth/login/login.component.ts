@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
       console.log(data)
       this.Auth.getstoredata(this.companyId, id, 1).subscribe(data1 => {
         console.log(data1)
-        this.Auth.getstoredatadb(data1).subscribe(d => {})
+        this.Auth.getstoredatadb(data1).subscribe(d => { })
       })
       localStorage.setItem('users', JSON.stringify(data))
       localStorage.setItem("logState", "logged_in")

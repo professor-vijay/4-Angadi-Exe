@@ -84,6 +84,11 @@ import { PurchasewiseReportComponent } from './purchasewise-report/purchasewise-
 import { ProductionsComponent } from './productions/productions.component';
 import { OptiongroupComponent } from './optiongroup/optiongroup.component';
 import { AdditionalChargesComponent } from './additional-charges/additional-charges.component';
+import { PercentagePipe } from '../../pipes/percentage/percentage.pipe';
+import { WastageProductComponent } from './wastage-product/wastage-product.component';
+import { CompanyComponent } from './company/company.component';
+import { OutletComponent } from './outlet/outlet.component';
+import { UserComponent } from './user/user.component';
 
 const COMPONENTS = [
   AppsMessagingComponent,
@@ -172,6 +177,11 @@ const COMPONENTS = [
     ProductionsComponent,
     OptiongroupComponent,
     AdditionalChargesComponent,
+    PercentagePipe,
+    WastageProductComponent,
+    CompanyComponent,
+    OutletComponent,
+    UserComponent,
   ],
 
   providers: [

@@ -16,6 +16,17 @@ export class AuthService {
     // this.sver_ip = localStorage.getItem('serverip');
   }
 
+  toFormData(formValue) {
+    const formData = new FormData();
+
+    for (const key of Object.keys(formValue)) {
+      const value = formValue[key];
+      // console.log(key, value)
+      formData.append(key, value);
+    }
+    return formData;
+  }
+
   registration(payload) {
     return this.http.post(this.base_url1 + 'Login/Register', payload)
   }
@@ -792,10 +803,10 @@ export class AuthService {
   }
 
 
-  daywise(fromdate, todate, storeId) {
+  daywise(fromdate, todate, storeId, companyId, sourceid) {
     return this.http.get(
       this.base_url1 +
-      'Daywise/GetRpt?storeId=' + storeId + '&fromdate=' + fromdate + '&todate=' + todate)
+      'Daywise/GetDaywiseRpt?storeId=' + storeId + '&fromdate=' + fromdate + '&todate=' + todate + '&companyId=' + companyId + '&sourceid=' + sourceid)
   }
   orderwise(fromdate, todate, Storeid, Companyid) {
     return this.http.get(
@@ -813,6 +824,62 @@ export class AuthService {
       this.base_url1 +
       'Daywise/GetTransSaleType?Storeid=' + Storeid + '&fromdate=' + fromdate + '&todate=' + todate + '&Companyid=' + Companyid + '&ptypeid=' + ptypeid + '&sourceid=' + sourceid)
   }
+
+  GetMonthRpt(fromdate, todate, Storeid, Companyid) {
+    return this.http.get(
+      this.base_url1 +
+      'Daywise/GetMonthWise?Storeid=' + Storeid + '&fromdate=' + fromdate + '&todate=' + todate + '&Companyid=' + Companyid)
+  }
+
+  GetProdRpt(fromdate, todate, Storeid, Companyid) {
+    return this.http.get(
+      this.base_url1 +
+      'Daywise/GetProductWise?Storeid=' + Storeid + '&fromdate=' + fromdate + '&todate=' + todate + '&Companyid=' + Companyid)
+  }
+
+  getcompanydata(companyId) {
+    return this.http.get(this.base_url1 + 'Customer/Index?companyId=' + companyId)
+  }
+
+  saveCompany(formdata) {
+    let body = this.toFormData(formdata);
+    return this.http.post(this.base_url1 + `Customer/SaveData`, body)
+  }
+
+  getstore(CompanyId) {
+    return this.http.get(this.base_url1 + 'Store/Get?CompanyId=' + CompanyId)
+  }
+
+  // addstore(companyid) {
+  //   return this.http.post(this.base_url1 + `Store/AddStore?companyid=` + companyid)
+  // }
+  addstore(payload) {
+    return this.http.post(this.base_url1 + 'Store/AddStore', payload)
+  }
+
+  updatestore(body) {
+
+    return this.http.post(this.base_url1 + `Store/UpdateData`, body)
+  }
+
+  getstorebyid(id) {
+    return this.http.get(this.base_url1 + 'Store/getstorebyid?id=' + id)
+  }
+  role(companyId) {
+    return this.http.get(this.base_url1 + 'Users/GetRole?companyId=' + companyId)
+  }
+  getuser(companyId) {
+    return this.http.get(this.base_url1 + 'Users/Getuser?companyId=' + companyId)
+  }
+
+  saveUser(playload) {
+    return this.http.post(this.base_url1 + 'Users/Add', playload)
+  }
+
+  outletActive(id, active) {
+    return this.http.get(this.base_url1 + 'Store/UpdateAct?id=' + id + "&active=" + active)
+  }
+
 
 
 }

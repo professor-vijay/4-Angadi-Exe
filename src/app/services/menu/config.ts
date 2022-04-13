@@ -88,6 +88,31 @@ export const getMenuData: any[] = [
     icon: 'fe fe-command',
     url: '/advanced/pricing-tables',
   },
+  {
+    title: 'Company Management',
+    key: 'apps',
+    icon: 'fa fa-building',
+    children: [
+      {
+        title: 'Company',
+        key: 'appsSetting',
+        icon: 'fa fa-building',
+        url: '/apps/Company',
+      },
+      {
+        title: 'Outlet',
+        key: 'appsSetting',
+        icon: 'fa fa-map-marker',
+        url: '/apps/Outlet',
+      },
+      {
+        title: 'User',
+        key: 'appsSetting',
+        icon: 'fe fe-users',
+        url: '/apps/user',
+      },
+    ]
+  }, 
 
    {
     title: 'Menu Management',
@@ -159,9 +184,15 @@ export const getMenuData: any[] = [
     key: 'apps',
     icon: 'fa fa-trash',
     children: [
-        
+      {
+        title: 'Wastage Product',
+        key: 'appsSetting',
+        icon: 'fa fa-calendar-check-o',
+        url: '/apps/WastageProduct',
+      },
     ]
   }, 
+
   {
     title: 'Report Management',
     key: 'apps',
@@ -169,7 +200,7 @@ export const getMenuData: any[] = [
     children: [
 
       {
-        title: 'Daywisesale',
+        title: 'Sales Report',
         key: 'appsSetting',
         icon: 'fa fa-calendar-check-o',
         url: '/apps/Daywisesale',
@@ -186,12 +217,12 @@ export const getMenuData: any[] = [
         icon: 'fa fa-product-hunt',
         url: '/apps/ProductwiseSales',
       },
-      {
-        title: 'MonthwiseSales',
-        key: 'appsSetting',
-        icon: 'fa fa-calendar',
-        url: '/apps/MonthwiseSales',
-      },
+      // {
+      //   title: 'MonthwiseSales',
+      //   key: 'appsSetting',
+      //   icon: 'fa fa-calendar',
+      //   url: '/apps/MonthwiseSales',
+      // },
       {
         title: 'PurchasewiseReport',
         key: 'appsSetting',
