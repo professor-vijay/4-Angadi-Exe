@@ -62,6 +62,7 @@ export class LoginComponent implements OnInit {
     this.globals.listener().subscribe(data => {
       this.isloggedin = data['loggedin']
       this.stores = data['stores']
+      console.log(this.stores)
       this.companyId = data['companyId'][0]['companyId']
       // console.log()
     })
@@ -97,7 +98,7 @@ export class LoginComponent implements OnInit {
       console.log(data)
       this.Auth.getstoredata(this.companyId, id, 1).subscribe(data1 => {
         console.log(data1)
-        this.Auth.getstoredatadb(data1).subscribe(d => { })
+        this.Auth.getstoredatadb(data1).subscribe(d => { console.log(d)})
       })
       localStorage.setItem('users', JSON.stringify(data))
       localStorage.setItem("logState", "logged_in")

@@ -39,12 +39,18 @@
                             Store Name
                         </strong>
                     </th>
+                    <th style="text-align: center;">
+                        <strong>
+                            Delete
+                        </strong>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of basicTable.data">
                     <td>
-                        <a (click)="editstore(item)"><strong style=" color: #e31242;
+                        <a class="btn btn-sm btn-light kit__utils__donut--primary" (click)="editstore(item)"><strong
+                                style=" color: #e31242;
                             font-size: 13px;"> {{item.name}}</strong></a>
                     </td>
                     <td>
@@ -52,6 +58,12 @@
                     </td>
                     <td>
                         {{item.Stores}}
+                    </td>
+
+                    <td>
+                        <a class="btn btn-link " (click)="deleteuser(item.id)">
+                            <i class="fe fe-trash-2"></i>
+                        </a>
                     </td>
 
 
@@ -64,7 +76,7 @@
 <div [hidden]="show" class="card">
 
     <div class="card col-xl-6" style="margin-left: 230px;">
-        <h4 style="text-align: center;"><strong>Add User</strong></h4>
+        <h4 style="text-align: center;"><strong>User</strong></h4>
 
         <h4 class="ml-3 mt-3">
             <strong *ngIf="userData.id==0">Add User</strong>
@@ -79,9 +91,8 @@
         <div class="car-body p-4 mr-1">
             <div class="form-group">
                 <strong for="" class="mb-2">User Name:</strong>
-                <input class="form-control" [(ngModel)]="userData.name"
-                     />
-                    
+                <input class="form-control" [(ngModel)]="userData.name" />
+
             </div>
             <br />
             <div class="form-group">
@@ -91,21 +102,17 @@
 
             </div>
             <br />
-            <strong for="" class="mb-2">Select Role:</strong>
+            <strong class="mb-2">Select Role:</strong>
             <nz-select nzAllowClear nzPlaceHolder="Select Role" [(ngModel)]="userData.roleId">
                 <nz-option *ngFor="let option of role" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
             </nz-select>
             <br />
             <br>
-            <!-- <div class="form-group">
-                <strong for="" class="mb-2">Select Store:</strong>
-                <input class="form-control" />
-            </div> -->
+
             <strong for="" class="mb-2">Select Store:</strong>
-            <nz-select [(ngModel)]="multipleValue" nzMode="multiple" nzShowSearch [(ngModel)]="userData.Stores">
+            <nz-select *ngIf="userData" [(ngModel)]="userData.mapped_stores" nzMode="'multiple'" nzShowSearch>
                 <nz-option style="width: 522px;" *ngFor="let option of store" [nzLabel]="option.name"
                     [nzValue]="option.id">
-
                 </nz-option>
             </nz-select>
             <br />

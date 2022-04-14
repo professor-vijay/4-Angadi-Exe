@@ -16,11 +16,11 @@ export class UserComponent implements OnInit {
   StoreId: any
   multipleValue = [];
   role: any
-  getuser: any = {users: []}
+  getuser: any = { users: [] }
   User: any;
   errorMsg: string = '';
   showloading = true;
-  userData = { id: 0, name: "", pin: 0, roleId: 0, accountId: 0, companyId: 0, Stores: [] }
+  userData = { id: 0, name: "", pin: 0, roleId: 0, accountId: 0, companyId: 0, Stores: [], mapped_stores: [], mapped_stores_name: [] }
   users: any;
 
 
@@ -64,12 +64,12 @@ export class UserComponent implements OnInit {
       console.log(this.getuser);
       this.getuser.users = this.getuser.users.filter(x => x.role.roleId != 1);
       this.getuser.users.forEach(element => {
-        element.Stores = "";
-        this.getuser.userstores.filter(x => x.userId == element.id).forEach(element1 => {
-          element.Stores = element.Stores + element1.store.name + ',';
-          console.log(user);
-          this.User = this.getuser.users;
-        });
+        element.Stores = element.mapped_stores_name.join(", ");
+        // this.getuser.userstores.filter(x => x.userId == element.id).forEach(element1 => {
+        // element.Stores = element.Stores + element1.store.name + ',';
+        // console.log(user);
+        // this.User = this.getuser.users;
+        // });
       });
       var response: any = user
       if (response.status == 0) {
@@ -81,7 +81,7 @@ export class UserComponent implements OnInit {
 
   back() {
     this.show = !this.show
-    this.userData = { id: 0, name: "", pin: 0, roleId: 0, accountId: 0, companyId: 0, Stores: [] }
+    this.userData = { id: 0, name: "", pin: 0, roleId: 0, accountId: 0, companyId: 0, Stores: [], mapped_stores: [], mapped_stores_name: [] }
 
   }
   saveuser() {
@@ -113,11 +113,31 @@ export class UserComponent implements OnInit {
     });
   }
 
-  editstore(userData) {   
+  editstore(userData) {
     console.log(userData)
     this.userData = userData
     this.show = !this.show
   }
+
+
+  deleteuser(Id) {
+    console.log(Id);
+    this.Auth.DeleteUser(Id).subscribe(x => {
+      this.GetUser();
+      var response: any = x
+      if (response.status == 0) {
+        this.errorMsg = response.msg;
+      }
+      else {
+        this.errorMsg = response.msg;
+        var index = this.users.findIndex(x => x.id == Id);
+        this.users.splice(index, 1);
+        console.log(this.users, index)
+        localStorage.setItem("users", JSON.stringify(this.users))
+      }
+    });
+  }
+
 
 
 

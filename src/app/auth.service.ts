@@ -869,7 +869,7 @@ export class AuthService {
     return this.http.get(this.base_url1 + 'Users/GetRole?companyId=' + companyId)
   }
   getuser(companyId) {
-    return this.http.get(this.base_url1 + 'Users/Getuser?companyId=' + companyId)
+    return this.http.get(this.base_url1 + 'Users/GetUsers?companyId=' + companyId)
   }
 
   saveUser(playload) {
@@ -878,6 +878,10 @@ export class AuthService {
 
   outletActive(id, active) {
     return this.http.get(this.base_url1 + 'Store/UpdateAct?id=' + id + "&active=" + active)
+  }
+
+  DeleteUser(Id) {
+    return this.http.get(this.base_url1 + "Users/Deleteuser?Id=" + Id);
   }
 
 
