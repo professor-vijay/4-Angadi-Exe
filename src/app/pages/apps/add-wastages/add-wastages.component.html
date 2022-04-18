@@ -1,6 +1,6 @@
 <div>
     <div class="cui__utils__heading">
-        <strong>Expiary Products</strong>
+        <strong>Add-Wastages</strong>
     </div>
     <div class="card">
         <div class="card-header card-header-flex" style="border-bottom: 0;">
@@ -14,17 +14,31 @@
                 </ng-template>
             </div>
             <div class="col-sm-auto row">
-                <button type="button" style="height: 32px; margin-top: 16px;width: 77px;"
-                    class="btn btn-success  pull-right">Save</button>
+                <button type="button" (click)="showModal()" style="height: 32px; margin-top: 16px;width: 122px;"
+                    class="btn btn-success  ">+
+                    Add-Wastage</button>
+
+                <!-- <button type="button" style="height: 32px; margin-top: 16px;width: 77px;"
+                    class="btn btn-success  pull-right">Save</button> -->
 
             </div>
 
         </div>
+
+        <nz-modal [(nzVisible)]="isVisible" nzTitle="Add-Wastage" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+            [nzOkLoading]="isOkLoading">
+            <span> <strong>Product</strong> </span>
+            <input nz-input placeholder="" /> <br> <br>
+            <span><strong>Wastage</strong> </span>
+            <input nz-input placeholder="" /><br> <br>
+            <!-- <span>Product</span>
+            <input nz-input placeholder="Basic usage" /> -->
+        </nz-modal>
         <!-- <div class="card-body"> -->
-        <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="wastage">
+        <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="">
             <thead>
                 <tr>
-                    <th style="text-align: center;"> 
+                    <th style="text-align: center;">
                         <strong>
                             Product Name
                         </strong>
@@ -49,44 +63,36 @@
                             Unit
                         </strong>
                     </th>
+
                     <th style="text-align: center;">
                         <strong> Wastage Qty</strong>
                     </th>
-                    <!-- <th style="text-align: center;">
-                        <strong> Recycle Qty</strong>
-                    </th>
-                    <th style="text-align: center;">
-                        <strong> Recycle Recipe</strong>
-                    </th> -->
+
 
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of basicTable.data">
+                <tr>
                     <td>
-                        {{item.name}}
+
                     </td>
                     <td>
-                        {{item.description}}
+
                     </td>
                     <td>
-                        {{item.quantity1}}
+
                     </td>
                     <td>
-                        {{item.expiaryDate | date: 'MMM d yyyy'}}
+
                     </td>
                     <td>
-                        {{item.description1}}
-                    </td>   
-                    <td>
-                        <input type="text" style="width: 60px;" min="1" class="form-control" />
-                    </td>
-                    <!-- <td>
-                        <input type="text" style="width: 79px;" min="1" class="form-control" />
+
                     </td>
                     <td>
-                        <input type="text" style="width: 79px;" min="1" class="form-control" />
-                    </td> -->
+
+                    </td>
+
+
 
                 </tr>
             </tbody>

@@ -74,6 +74,7 @@ export class SaleComponent implements OnInit {
       this.setproductbybarcode(data)
     }
     console.log(this.isuppercase)
+    
   }
   scrollContainer: any
   products: any
@@ -197,6 +198,12 @@ export class SaleComponent implements OnInit {
         storeId: this.StoreId,
         companyId: this.CompanyId,
         datastatus: '',
+      }
+
+      if (localStorage.getItem('draftOrders')) {
+        this.draftOrders = JSON.parse(localStorage.getItem('draftOrders'))
+      } else {
+        localStorage.setItem('draftOrders', '[]')
       }
     })
   }
@@ -470,6 +477,17 @@ export class SaleComponent implements OnInit {
   }
   clearallorders() {
     this.order = new OrderModule(6)
+    this.clearDraftOrder()
+  }
+  clearDraftOrder() {
+    if (this.selectedDraftIndex > -1) {
+      this.draftOrders.splice(this.selectedDraftIndex, 1)
+      this.draftOrders.forEach((dorder, ind) => {
+        dorder.draftIndex = ind
+      })
+      localStorage.setItem('draftOrders', JSON.stringify(this.draftOrders))
+      this.selectedDraftIndex = -1
+    }
   }
   settotalprice(i, qty) {
     this.cartitems[i].amount = this.cartitems[i].price * this.cartitems[i].quantity
@@ -652,6 +670,8 @@ export class SaleComponent implements OnInit {
     })
     this.addcustomer()
     this.notification.success('Ordered Saved successfully!', `Ordered Saved successfully.`)
+
+    this.clearallorders()
   }
   syncDB() {
     this.Auth.getstoredata(this.CompanyId, this.StoreId, 1).subscribe(data1 => {
@@ -665,6 +685,37 @@ export class SaleComponent implements OnInit {
     this.model = ''
     this.filteredvalues = []
     this.submitted = false
+  }
+
+  selectedDraftIndex: number = -1
+  draftOrders = []
+
+  draftOrder() {
+    let draftOrders = JSON.parse(localStorage.getItem('draftOrders'))
+    console.log(this.draftOrder);
+    
+    let draftOrder = {
+      order: this.order,
+      draftIndex: draftOrders.length,
+      draftName: '₹ ' + this.order.BillAmount + ' /-',
+    }
+    if (this.selectedDraftIndex == -1) {
+      draftOrders.push(draftOrder)
+    } else {
+      draftOrder.draftIndex = this.selectedDraftIndex
+      draftOrders[this.selectedDraftIndex] = draftOrder
+    }
+    this.draftOrders = draftOrders
+    localStorage.setItem('draftOrders', JSON.stringify(draftOrders))
+    this.selectedDraftIndex = -1
+    this.clearallorders()
+    console.log(draftOrder);
+    
+  }
+  loadDraftOrder(dorder) {
+    this.selectedDraftIndex = dorder.draftIndex
+    for (var k in dorder.order) this.order[k] = dorder.order[k]
+    console.log(dorder, this.order)
   }
 
   getcustomer() {

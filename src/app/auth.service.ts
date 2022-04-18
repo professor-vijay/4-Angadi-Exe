@@ -884,6 +884,10 @@ export class AuthService {
     return this.http.get(this.base_url1 + "Users/Deleteuser?Id=" + Id);
   }
 
+  getwastage(companyId) {
+    return this.http.get(this.base_url1 + 'Daywise/wastage?companyId=' + companyId)
+  }
+
 
 
 }

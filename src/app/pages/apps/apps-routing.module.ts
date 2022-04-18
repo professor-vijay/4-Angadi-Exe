@@ -70,6 +70,7 @@ import { WastageProductComponent } from './wastage-product/wastage-product.compo
 import { CompanyComponent } from './company/company.component'
 import { OutletComponent } from './outlet/outlet.component'
 import { UserComponent } from './user/user.component'
+import { AddWastagesComponent } from './add-wastages/add-wastages.component'
 
 
 
@@ -263,6 +264,11 @@ const routes: Routes = [
     path: 'WastageReport',
     component: WastageReportComponent,
     data: { title: 'WastageReport App' },
+  },
+  {
+    path: 'AddWastages',
+    component: AddWastagesComponent,
+    data: { title: 'AddWastages App' },
   },
   {
     path: 'Productions',

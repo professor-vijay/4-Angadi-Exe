@@ -171,21 +171,27 @@ export const getMenuData: any[] = [
       },      
     ]
   }, 
-  {
-    title: 'Manufacture',
-    key: 'apps',
-    icon: 'fa fa-industry',
-    children: [
+  // {
+  //   title: 'Manufacture',
+  //   key: 'apps',
+  //   icon: 'fa fa-industry',
+  //   children: [
         
-    ]
-  }, 
+  //   ]
+  // }, 
   {
     title: 'Wastage Management',
     key: 'apps',
     icon: 'fa fa-trash',
     children: [
       {
-        title: 'Wastage Product',
+        title: 'Add-Wastages',
+        key: 'appsSetting',
+        icon: 'fa fa-calendar-check-o',
+        url: '/apps/AddWastages',
+      },
+      {
+        title: 'Expiary Products',
         key: 'appsSetting',
         icon: 'fa fa-calendar-check-o',
         url: '/apps/WastageProduct',
@@ -223,30 +229,30 @@ export const getMenuData: any[] = [
       //   icon: 'fa fa-calendar',
       //   url: '/apps/MonthwiseSales',
       // },
-      {
-        title: 'PurchasewiseReport',
-        key: 'appsSetting',
-        icon: 'fa fa-shopping-basket',
-        url: '/apps/PurchasewiseReport',
-      },
-      {
-        title: 'WastageReport',
-        key: 'appsSetting',
-        icon: 'fa fa-bitbucket',
-        url: '/apps/WastageReport',
-      },
+      // {
+      //   title: 'PurchasewiseReport',
+      //   key: 'appsSetting',
+      //   icon: 'fa fa-shopping-basket',
+      //   url: '/apps/PurchasewiseReport',
+      // },
+      // {
+      //   title: 'WastageReport',
+      //   key: 'appsSetting',
+      //   icon: 'fa fa-bitbucket',
+      //   url: '/apps/WastageReport',
+      // },
       {
         title: 'Paymenttypes',
         key: 'appsSetting',
         icon: 'fa fa-money',
         url: '/apps/Paymenttypes',
       },
-      {
-        title: 'Productions',
-        key: 'appsSetting',
-        icon: 'fa fa-handshake-o',
-        url: '/apps/Productions',
-      },
+      // {
+      //   title: 'Productions',
+      //   key: 'appsSetting',
+      //   icon: 'fa fa-handshake-o',
+      //   url: '/apps/Productions',
+      // },
         
     ]
     }, 

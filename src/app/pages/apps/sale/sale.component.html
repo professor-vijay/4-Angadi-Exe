@@ -85,6 +85,10 @@
                 (click)="order.StorePaymentTypeId = 0;order.PaidAmount = 0" class="btn btn-squared">
                 Unpaid
             </button> -->
+      <button class="btn btn-warning ml-3" [disabled]="order&&order.Items.length == 0" (click)="draftOrder()">
+        <i class="fa fa-save"></i>
+        Draft
+      </button>
     </div>
     <div *ngIf="order&&order.Items.length" class="text-right font-size-18 text-dark p-4 rounded bg-light">
       <div>
@@ -235,10 +239,20 @@
         <div class="justify-content-center mr-auto mt-3">
           <div class="row">
             <strong for="fname" style="margin-top: 10px;">Order No :</strong><br>
-            <h4 class="text-success" style="margin-left: 3px; font-weight: 900;margin-top: 7px;" [(ngModel)]="orderkey.orderno ">
+            <h4 class="text-success" style="margin-left: 3px; font-weight: 900;margin-top: 7px;"
+              [(ngModel)]="orderkey.orderno ">
               {{orderkey.orderno}}</h4>
-
             <button class="btn btn-link"><i class="fa fa-qrcode" style="font-size: xx-large;"></i></button>
+
+            <div *ngFor="let dorder of draftOrders" class="btn-group">
+              <ul class="list-group">
+                <a style="height: 35px;" href="javascript:void(0);" (click)="loadDraftOrder(dorder)"
+                  [class.cat-active]="selectedDraftIndex == dorder.draftIndex"
+                  class="btn btn-outline-danger">
+                  <code>[{{dorder.draftIndex}}]</code>{{dorder.draftName}}
+                </a>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="d-flex flex-column justify-content-center ">

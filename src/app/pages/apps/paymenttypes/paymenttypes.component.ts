@@ -28,11 +28,12 @@ export class PaymenttypesComponent implements OnInit {
       this.loginfo = data['loginfo'][0]
       this.CompanyId = this.loginfo.companyId
       this.StoreId = this.loginfo.storeId
-      console.log(this.loginfo)    
+      console.log(this.loginfo)   
+      this.strdate = moment().format('YYYY-MM-DD')
+      this.enddate = moment().format('YYYY-MM-DD')
+      this.gettransrpt() 
     })
-    this.strdate = moment().format('YYYY-MM-DD')
-    this.enddate = moment().format('YYYY-MM-DD')
-    this.gettransrpt()
+   
 
   }
 
