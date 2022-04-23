@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth.service';
+
 
 @Component({
   selector: 'app-add-wastages',
@@ -26,9 +28,29 @@ export class AddWastagesComponent implements OnInit {
     this.isVisible = false;
   }
 
-  constructor() { }
+  loginfo
+  CompanyId:any
+  StoreId:any
+  products:any
+
+  constructor(private Auth: AuthService,) { }
 
   ngOnInit(): void {
+    this.Auth.getdbdata(['loginfo', 'printersettings']).subscribe(data => {
+      this.loginfo = data['loginfo'][0]
+      this.CompanyId = this.loginfo.CompanyId
+      this.StoreId = this.loginfo.StoreId
+      this.getproducts()
+    })
+   
   }
+  
+
+  getproducts() {
+    this.Auth.getproducts().subscribe(data => {
+      this.products = data
+      console.log(this.products)
+    })
+  } 
 
 }

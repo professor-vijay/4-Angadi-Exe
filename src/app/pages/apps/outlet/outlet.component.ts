@@ -65,10 +65,11 @@ export class OutletComponent implements OnInit {
   }
 
 
-
+  tabledata: []
   getstoreoutlet() {
     this.Auth.getstore(this.CompanyId).subscribe(data => {
       this.stores = data
+      this.tabledata = this.stores
       console.log(this.stores)
     })
   }
@@ -148,5 +149,13 @@ export class OutletComponent implements OnInit {
     });
   }
 
+
+  term: string = ''
+  filtersearch(): void {
+    this.tabledata = this.term
+      ? this.stores.filter(x => x.name.toLowerCase().includes(this.term.toLowerCase()))
+      : this.stores
+    console.log(this.tabledata)
+  }
 
 }

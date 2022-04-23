@@ -90,6 +90,7 @@ import { CompanyComponent } from './company/company.component';
 import { OutletComponent } from './outlet/outlet.component';
 import { UserComponent } from './user/user.component';
 import { AddWastagesComponent } from './add-wastages/add-wastages.component';
+import { AdditionalChargeComponent } from './additional-charge/additional-charge.component';
 
 const COMPONENTS = [
   AppsMessagingComponent,
@@ -184,6 +185,8 @@ const COMPONENTS = [
     OutletComponent,
     UserComponent,
     AddWastagesComponent,
+    AdditionalChargeComponent,
+    
   ],
 
   providers: [

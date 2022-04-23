@@ -71,6 +71,8 @@ import { CompanyComponent } from './company/company.component'
 import { OutletComponent } from './outlet/outlet.component'
 import { UserComponent } from './user/user.component'
 import { AddWastagesComponent } from './add-wastages/add-wastages.component'
+import { AdditionalChargeComponent } from './additional-charge/additional-charge.component'
+import { OptiongroupComponent } from './optiongroup/optiongroup.component'
 
 
 
@@ -163,6 +165,16 @@ const routes: Routes = [
     path: 'taxgroup',
     component: TaxgroupComponent,
     data: { title: 'TaxGroup App' },
+  },
+  {
+    path: 'Additional-Charge',
+    component: AdditionalChargeComponent,
+    data: { title: 'Additional-Charge App' },
+  },
+  {
+    path: 'Option-Group',
+    component: OptiongroupComponent,
+    data: { title: 'Option-Group App' },
   },
   {
     path: 'DispatchOrders',

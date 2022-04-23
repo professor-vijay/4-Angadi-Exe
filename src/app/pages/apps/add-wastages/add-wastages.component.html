@@ -28,13 +28,14 @@
         <nz-modal [(nzVisible)]="isVisible" nzTitle="Add-Wastage" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
             [nzOkLoading]="isOkLoading">
             <span> <strong>Product</strong> </span>
-            <input nz-input placeholder="" /> <br> <br>
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Product">
+                <nz-option *ngFor="let option of products" [nzLabel]="option.product" [nzValue]="option._id">
+                </nz-option>
+            </nz-select> <br> <br>
             <span><strong>Wastage</strong> </span>
             <input nz-input placeholder="" /><br> <br>
-            <!-- <span>Product</span>
-            <input nz-input placeholder="Basic usage" /> -->
+
         </nz-modal>
-        <!-- <div class="card-body"> -->
         <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="">
             <thead>
                 <tr>

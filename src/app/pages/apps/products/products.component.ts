@@ -19,6 +19,7 @@ export class ProductsComponent implements OnInit {
   taxGroupId: number
   producttypes: any
   units: any
+  optiondata:any
   // kotgroups: any
   categories: any
   masterproduct: any = []
@@ -98,6 +99,7 @@ export class ProductsComponent implements OnInit {
       console.log(this.loginfo)
       this.getMasterproduct()
       this.gettax()
+   
       this.getproducttype()
       this.getUnits()
       // this.getKotGroups()
@@ -160,6 +162,7 @@ export class ProductsComponent implements OnInit {
       console.log(this.taxgroups);
     })
   }
+
   getproduct(id) {
     if (this.prodid != '0') {
       this.Auth.getproductbyid(id).subscribe(data => {

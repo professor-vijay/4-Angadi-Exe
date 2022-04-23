@@ -89,6 +89,10 @@
         <i class="fa fa-save"></i>
         Draft
       </button>
+      <!-- <button class="btn btn-warning ml-3" >
+        <i class="fa fa-save"></i>
+       Additional charge
+      </button> -->
     </div>
     <div *ngIf="order&&order.Items.length" class="text-right font-size-18 text-dark p-4 rounded bg-light">
       <div>
@@ -247,8 +251,7 @@
             <div *ngFor="let dorder of draftOrders" class="btn-group">
               <ul class="list-group">
                 <a style="height: 35px;" href="javascript:void(0);" (click)="loadDraftOrder(dorder)"
-                  [class.cat-active]="selectedDraftIndex == dorder.draftIndex"
-                  class="btn btn-outline-danger">
+                  [class.cat-active]="selectedDraftIndex == dorder.draftIndex" class="btn btn-outline-danger">
                   <code>[{{dorder.draftIndex}}]</code>{{dorder.draftName}}
                 </a>
               </ul>
@@ -258,11 +261,25 @@
         <div class="d-flex flex-column justify-content-center ">
           <!-- <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker> -->
         </div>
-        <div class="d-flex flex-column justify-content-center ">
+        <!-- <div class="d-flex flex-column justify-content-center ">
           <a class="btn btn-link pull-right border" (click)="clearallorders()">
             <i class="fe fe-trash-2"></i> Clear List
           </a>
+        </div> -->
+
+        <div class="d-flex flex-row-reverse" style="padding-left:20%;">
+          <div class="row pl-4 pt-1">
+
+            <a style="margin: auto;" (click)="openCustomClass(Additioncharge)">
+              &nbsp; Addition Charge |
+            </a>
+            <a style="margin: auto;" class="btn btn-link pull-right border" (click)="clearallorders()"><i
+                class="fe fe-trash-2"></i>
+              &nbsp; Clear Order
+            </a>
+          </div>
         </div>
+
       </div>
       <div>
         <nz-table #cartTable nzSize="middle" [nzShowPagination]="false" [nzData]="products"
@@ -314,3 +331,32 @@
     </div>
   </div>
 </div>
+
+<!-- Addition Charges Modal-->
+<ng-template #Additioncharge let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Additional Charge
+    </h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngFor="let charge of order.additionalchargearray">
+      <label style="color: black;"><b>{{charge.Description}} {{charge.ChargeType == 1 ? '' : '%'}}</b></label>
+      <br>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input [(ngModel)]="charge.selected" type="checkbox" aria-label="Checkbox for following text input">
+          </div>
+        </div>
+        <input type="number" [(ngModel)]="charge.ChargeValue" class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="order.setbillamount();modal.close('Save click')">Save
+      Changes</button>
+  </div>
+</ng-template>

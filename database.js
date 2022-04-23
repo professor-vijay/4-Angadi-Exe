@@ -152,9 +152,9 @@ app.get('/getproducts', function (req, res) {
     });
 })
 app.get('/getendangeredproducts', function (req, res) {
-  db.productdb.find({ quantity: { $lt: 4 } }, function (err, docs) {
-      res.send(docs)
-  });
+    db.productdb.find({ quantity: { $lt: 4 } }, function (err, docs) {
+        res.send(docs)
+    });
 })
 app.get('/getbarcodeproduct', function (req, res) {
     db.barcodeproductdb.find({}, function (err, docs) {
@@ -400,6 +400,13 @@ app.post('/saveorderdb', function (req, res) {
 //         res.send({ message: 'yes iam the server' })
 //     });
 // })
+app.post('/updateadditional', function (req, res) {
+    console.dir(req.body);
+    db.additionalchargesdb.update({ _id: req.body._id }, req.body, { upsert: true }, function (err, newDoc) {
+        console.log(newDoc) // Callback is optional
+        res.send({ message: 'yes iam the server' })
+    });
+})
 app.post('/updatetaxgroup', function (req, res) {
     console.dir(req.body);
     db.taxgroupdb.update({ _id: req.body._id }, req.body, { upsert: true }, function (err, newDoc) {
@@ -899,15 +906,15 @@ app.post('/setstoredata', function (req, res) {
     var i = 0
     var obj = { mas: "success" }
     db.orderkeydb.remove({}, { multi: true }, function (err, numberRemoved) {
-      const orderkey = {orderno: req.body.orderkey[0].orderno + 1, GSTno: "", timestamp: new Date().getTime()}
-      db.orderkeydb.insert(orderkey, function (err, newDoc) {   // Callback is optional
-          console.log("loginfo", i)
-          i++
-          if (i == 11)
-              res.send(obj)
-      });
-  })
-  db.loginfo.remove({}, { multi: true }, function (err, numberRemoved) {
+        const orderkey = { orderno: req.body.orderkey[0].orderno + 1, GSTno: "", timestamp: new Date().getTime() }
+        db.orderkeydb.insert(orderkey, function (err, newDoc) {   // Callback is optional
+            console.log("loginfo", i)
+            i++
+            if (i == 11)
+                res.send(obj)
+        });
+    })
+    db.loginfo.remove({}, { multi: true }, function (err, numberRemoved) {
         db.loginfo.insert(req.body.logInfo, function (err, newDoc) {   // Callback is optional
             console.log("loginfo", i)
             i++
@@ -997,7 +1004,14 @@ app.post('/setstoredata', function (req, res) {
                 res.send(obj)
         });
     });
-
+    db.additionalchargesdb.remove({}, { multi: true }, function (err, numRemoved) {
+        db.additionalchargesdb.insert(req.body.additionalCharges, function (err, newDoc) {   // Callback is optional
+            console.log("preference", i)
+            i++
+            if (i == 11)
+                res.send(obj)
+        });
+    });
 });
 
 // app.post('/addmasterproduct', function (req, res) {

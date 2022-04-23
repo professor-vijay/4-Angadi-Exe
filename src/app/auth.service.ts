@@ -139,22 +139,20 @@ export class AuthService {
     return this.http.get(this.base_url1 + 'Product/getUnits')
     // return this.http.get(this.server_ip + ':8081/getunit')
   }
-  getCategory(CompanyId) {
-    return this.http.get(this.server_ip + ':8081/getmastercategory?CompanyId=1')
-  }
+
   addProduct(product) {
     return this.http.post(this.server_ip + ':8081/addmasterproduct?userid=13', product)
   }
   getvariants(CompanyId) {
     // return this.http.get(this.base_url1 + 'Product/getvariants?CompanyId=1')
-    return this.http.get(this.server_ip + ':8081/masteroption?CompanyId=1')
+    return this.http.get(this.server_ip + ':8081/masteroption?CompanyId=' + CompanyId)
   }
   addVariants(variant) {
     // return this.http.post(this.base_url1 + 'Product/addvariant',variant)
     return this.http.post(this.server_ip + ':8081/addmasteroption', variant)
   }
   getvariantgroups(CompanyId) {
-    return this.http.get(this.server_ip + ':8081/masteroptiongroup?CompanyId=1')
+    return this.http.get(this.server_ip + ':8081/masteroptiongroup?CompanyId=' + CompanyId)
   }
   addVariantGroups(variantgroup) {
     return this.http.post(this.server_ip + ':8081/addmasteroptiongroup', variantgroup)
@@ -888,6 +886,41 @@ export class AuthService {
     return this.http.get(this.base_url1 + 'Daywise/wastage?companyId=' + companyId)
   }
 
+  Getadditional(CompanyId) {
+    return this.http.get(this.base_url1 + 'TaxGroup/GetAddtional?CompanyId=' + CompanyId)
+  }
+
+  Addadditional(additional) {
+    return this.http.post(this.base_url1 + 'TaxGroup/Addadditional', additional)
+  }
+  updateadditionaldb(additional) {
+    return this.http.post(this.server_ip + ':8081/updateadditional', additional)
+  }
+
+  Updateadditional(additional) {
+    return this.http.post(this.base_url1 + 'TaxGroup/Updateadditional', additional)
+  }
+
+  getOption(CompanyId) {
+    return this.http.get(this.base_url1 + 'OptionGroup/Get?CompanyId=' + CompanyId)
+  }
+
+
+  saveoption(data) {
+    return this.http.post(this.base_url1 + 'OptionGroup/CreateOption', data)
+  }
+
+  Updateoption(data) {
+    return this.http.post(this.base_url1 + 'OptionGroup/Update', data)
+  }
+
+  optionsactive(Id, active) {
+    return this.http.get(this.base_url1 + 'OptionGroup/UpdateAct?Id=' + Id + '&active=' + active)
+  }
+
+  EditOption(Id) {
+    return this.http.get(this.base_url1 + "OptionGroup/GetById?Id=" + Id);
+  }
 
 
 }

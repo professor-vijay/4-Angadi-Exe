@@ -23,12 +23,19 @@ export class ProductOptionsComponent implements OnInit {
   mapOfCheckedId: { [key: string]: boolean } = {}
   numberOfChecked = 0;
   datasavetype: string = "1";
+  loginfo
   constructor(private Auth: AuthService, private notification: NzNotificationService) {
     this.datasavetype = localStorage.getItem("datasavetype");
   }
 
   ngOnInit(): void {
-    this.getvariantgroups();
+    this.Auth.getdbdata(['loginfo']).subscribe(data => {
+      this.loginfo = data['loginfo'][0]
+      this.CompanyId = this.loginfo.companyId     
+      console.log(this.loginfo)   
+      this.getvariantgroups();
+    })
+   
   }
 
   ontabchange(e) {
@@ -44,13 +51,10 @@ export class ProductOptionsComponent implements OnInit {
   }
 
   getvariants() {
-    this.Auth.getvariants(this.CompanyId).subscribe(data => {
+    this.Auth.getvariants(this.loginfo.companyId).subscribe(data => {
       this.variants = data;
       console.log(this.variants)
       this.show = true
-      // this.variantgroups.forEach(vg => {
-      //   vg.count = this.variants.filter(x => x.variantGroupId = vg.id).length
-      // });
       this.variants.forEach(v => {
         v.variantGroup = this.variantgroups.filter(x => x.id == v.variantGroupId)[0]
       });
@@ -59,9 +63,8 @@ export class ProductOptionsComponent implements OnInit {
   }
 
   getvariantgroups() {
-    this.Auth.getvariantgroups(this.CompanyId).subscribe(data => {
+    this.Auth.getvariantgroups(this.loginfo.companyId).subscribe(data => {
       this.variantgroups = data;
-      // this.variantgroups = this.variantgroups.filter(x => x.id == 0);
       this.show = true;
       console.log(this.variantgroups)
       this.getvariants();
@@ -106,8 +109,6 @@ export class ProductOptionsComponent implements OnInit {
     this.submitted = true;
     console.log(this.submitted);
     if (this.variantValidation()) {
-      // this.variant.variantGroupId = +this.variant.variantGroupId;
-      // this.variant.variantGroup = null
       console.log()
       if (this.variant.id == 0) {
         this.variant.action = "A"

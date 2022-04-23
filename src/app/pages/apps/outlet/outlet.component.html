@@ -7,7 +7,7 @@
 
             <div class="d-flex flex-column justify-content-center mr-auto">
                 <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                    <input type="text" nz-input placeholder="Search Outlet" />
+                    <input type="text" nz-input placeholder="Search Outlet" [(ngModel)]="term" (input)="filtersearch()" />
                 </nz-input-group>
                 <ng-template #suffixIconButton>
                     <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
@@ -21,7 +21,7 @@
 
         </div>
         <!-- <div class="card-body"> -->
-        <nz-table #basicTable class="kit__utils__table mb-4 px-4" nzSize="small" [nzData]="stores">
+        <nz-table #basicTable class="kit__utils__table mb-4 px-4" nzSize="small" [nzData]="tabledata">
             <thead>
                 <tr>
                     <th style="text-align: center;">

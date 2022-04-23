@@ -58,7 +58,7 @@ export const getMenuData: any[] = [
   //   url: '/apps/internaltransfer',
   // },
 
- 
+
   // {
   //   title: 'Variant',
   //   key: 'appsProductOptions',
@@ -66,9 +66,9 @@ export const getMenuData: any[] = [
   //   url: '/apps/productoptions',
   // },
 
- 
-  
- 
+
+
+
   // {
   //   title: 'Needed Products',
   //   key: 'appsaddproduct',
@@ -112,9 +112,9 @@ export const getMenuData: any[] = [
         url: '/apps/user',
       },
     ]
-  }, 
+  },
 
-   {
+  {
     title: 'Menu Management',
     key: 'apps',
     icon: 'fa fa-server',
@@ -136,9 +136,33 @@ export const getMenuData: any[] = [
         key: 'appsSetting',
         icon: 'fa fa-calculator',
         url: '/apps/taxgroup',
-      },      
+      },
+      {
+        title: 'Additional-Charge',
+        key: 'appsSetting',
+        icon: 'fa fa-calculator',
+        url: '/apps/Additional-Charge',
+      },
+      // {
+      //   title: 'Option-Group',
+      //   key: 'appsSetting',
+      //   icon: 'fa fa-calculator',
+      //   url: '/apps/Option-Group',
+      // },
+      {
+        title: 'Variant',
+        key: 'appsProductOptions',
+        icon: 'fe fe-copy',
+        url: '/apps/productoptions',
+      },
+      
+      // {
+      //   title: 'ProductOptions',
+      //   key: 'appsProductOptions',
+      //   url: '/apps/productoptions',
+      // },
     ]
-  }, 
+  },
 
   {
     title: 'Stock Management',
@@ -168,15 +192,15 @@ export const getMenuData: any[] = [
         key: 'appsSetting',
         icon: 'fe fe-user-check',
         url: '/apps/vendors',
-      },      
+      },
     ]
-  }, 
+  },
   // {
   //   title: 'Manufacture',
   //   key: 'apps',
   //   icon: 'fa fa-industry',
   //   children: [
-        
+
   //   ]
   // }, 
   {
@@ -197,7 +221,7 @@ export const getMenuData: any[] = [
         url: '/apps/WastageProduct',
       },
     ]
-  }, 
+  },
 
   {
     title: 'Report Management',
@@ -253,11 +277,11 @@ export const getMenuData: any[] = [
       //   icon: 'fa fa-handshake-o',
       //   url: '/apps/Productions',
       // },
-        
-    ]
-    }, 
 
-  
+    ]
+  },
+
+
 
   // {
   //   title: 'Dashboards',

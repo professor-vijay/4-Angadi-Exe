@@ -74,7 +74,7 @@ export class SaleComponent implements OnInit {
       this.setproductbybarcode(data)
     }
     console.log(this.isuppercase)
-    
+
   }
   scrollContainer: any
   products: any
@@ -162,10 +162,11 @@ export class SaleComponent implements OnInit {
   orderkey = { orderno: 1, timestamp: 0, GSTno: '' }
 
   ngOnInit(): void {
-    this.Auth.getdbdata(['loginfo', 'printersettings', 'orderkeydb']).subscribe(data => {
+    this.Auth.getdbdata(['loginfo', 'printersettings', 'orderkeydb', 'additionalchargesdb']).subscribe(data => {
       this.loginfo = data['loginfo'][0]
       this.printersettings = data['printersettings'][0]
       this.orderkey = data["orderkeydb"][0]
+      this.charges = data["additionalchargesdb"]
       localStorage.setItem('orderkey', JSON.stringify(this.orderkey))
       this.CompanyId = this.loginfo.companyId
       this.StoreId = this.loginfo.storeId
@@ -177,12 +178,13 @@ export class SaleComponent implements OnInit {
     //   : { orderno: 1, timestamp: 0, GSTno: '' }
     this.Auth.getloginfo().subscribe(data => {
       this.loginfo = data
-      this.order = new OrderModule(6)
+      this.createOrder()
       this.sync.sync()
       this.products = []
       this.getproducts()
       this.getcustomers()
       this.GetStorePaymentType()
+      // this.createorder()
       this.temporaryItem.Quantity = null
       this.products.forEach(product => {
         product.Quantity = null
@@ -207,7 +209,13 @@ export class SaleComponent implements OnInit {
       }
     })
   }
-
+  createOrder() {
+    this.order = new OrderModule(6)
+    this.charges.forEach(charge => {
+      this.order.additionalchargearray.push(new AdditionalCharge(charge))
+    })
+    console.log(this.order.additionalchargearray, this.charges)
+  }
   updateorderno() {
     this.orderkey.orderno++
     localStorage.setItem('orderkey', JSON.stringify(this.orderkey))
@@ -244,26 +252,27 @@ export class SaleComponent implements OnInit {
 
   }
 
-  createorder(ordertypeid) {
-    this.order = new OrderModule(ordertypeid)
-    this.order.createdtimestamp = new Date().getTime()
-    this.charges.forEach(charge => {
-      this.order.additionalchargearray.push(new AdditionalCharge(charge))
-    })
-    if (![2, 3, 4].includes(this.order.OrderTypeId)) {
-      this.order.additionalchargearray.forEach(charge => {
-        charge.selected = false
-      })
-    }
-    this.order.StoreId = this.loginfo.storeId
-    this.orderlogging('create_order')
-    this.show = false
-    this.sectionid = 2
-    if (this.order.IsAdvanceOrder || this.order.OrderTypeId == 2) {
-      this.deliverydate = moment().format('YYYY-MM-DD')
-      this.deliverytime = moment().format('HH:MM')
-    }
-  }
+  // createorder() {
+  //   // this.order = new OrderModule(ordertypeid)
+  //   // this.order.createdtimestamp = new Date().getTime()
+  //   this.charges.forEach(charge => {
+  //     this.order.additionalchargearray.push(new AdditionalCharge(charge))
+  //   })
+  //   if (![2, 3, 4].includes(this.order.OrderTypeId)) {
+  //     this.order.additionalchargearray.forEach(charge => {
+  //       charge.selected = false
+  //       console.log(this.order.additionalchargearray)
+  //     })
+  //   }
+  //   // this.order.StoreId = this.loginfo.storeId
+  //   // this.orderlogging('create_order')
+  //   // this.show = false
+  //   // this.sectionid = 2
+  //   // if (this.order.IsAdvanceOrder || this.order.OrderTypeId == 2) {
+  //   //   this.deliverydate = moment().format('YYYY-MM-DD')
+  //   //   this.deliverytime = moment().format('HH:MM')
+  //   // }
+  // }
 
   groupProduct() {
     var helper = {}
@@ -476,8 +485,9 @@ export class SaleComponent implements OnInit {
     this.order.setbillamount()
   }
   clearallorders() {
-    this.order = new OrderModule(6)
+    // this.order = new OrderModule(6)
     this.clearDraftOrder()
+    this.createOrder()
   }
   clearDraftOrder() {
     if (this.selectedDraftIndex > -1) {
@@ -665,8 +675,7 @@ export class SaleComponent implements OnInit {
     this.Auth.saveordertonedb(this.order).subscribe(data => {
       console.log(data)
       this.sync.sync()
-      this.order = new OrderModule(6)
-
+      this.createOrder()
     })
     this.addcustomer()
     this.notification.success('Ordered Saved successfully!', `Ordered Saved successfully.`)
@@ -693,7 +702,7 @@ export class SaleComponent implements OnInit {
   draftOrder() {
     let draftOrders = JSON.parse(localStorage.getItem('draftOrders'))
     console.log(this.draftOrder);
-    
+
     let draftOrder = {
       order: this.order,
       draftIndex: draftOrders.length,
@@ -710,7 +719,7 @@ export class SaleComponent implements OnInit {
     this.selectedDraftIndex = -1
     this.clearallorders()
     console.log(draftOrder);
-    
+
   }
   loadDraftOrder(dorder) {
     this.selectedDraftIndex = dorder.draftIndex
@@ -876,16 +885,16 @@ export class SaleComponent implements OnInit {
         +((this.order.OrderTotDisc + this.order.AllItemTotalDisc) / 2).toFixed(0)
       ).toFixed(2)}</td>
     </tr>`
-    // this.order.additionalchargearray.forEach(charge => {
-    //   if (charge.selected) {
-    //     printtemplate += `
-    //     <tr class="nb">
-    //         <td class="text-left"><strong>${charge.Description}</strong></td>
-    //         <td colspan="2"></td>
-    //         <td class="text-right">${charge.ChargeValue}</td>
-    //     </tr>`
-    //   }
-    // })
+    this.order.additionalchargearray.forEach(charge => {
+      if (charge.selected) {
+        printtemplate += `
+        <tr class="nb">
+            <td class="text-left"><strong>${charge.Description}</strong></td>
+            <td colspan="2"></td>
+            <td class="text-right">${charge.ChargeValue}</td>
+        </tr>`
+      }
+    })
     printtemplate += `
           <tr class="nb" ${extra > 0 ? '' : 'hidden'}>
               <td class="text-left"><strong>Extra</strong></td>

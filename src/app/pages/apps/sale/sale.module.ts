@@ -145,7 +145,7 @@ export class OrderModule {
     this.WipStatus = ''
   }
 
-  addproduct(product,showname) {
+  addproduct(product, showname) {
     console.log(product)
     this.Items.push(new OrderItemModule(product, showname))
     this.setbillamount()
@@ -190,22 +190,28 @@ export class OrderModule {
       this.TaxAmount += item.TaxAmount
       this.DiscAmount += item.DiscAmount
     })
+    
+    this.additionalchargearray.forEach(charge => {
+      console.log(charge.Description, charge.selected)
+      if (charge.selected) {
+        if (charge.ChargeType == 2) {
+          charge.Amount = Number((this.BillAmount / 100) * charge.ChargeValue)
+        } else {
+          charge.Amount = Number(charge.ChargeValue)
+        }
+        extracharge += charge.Amount
+        this.Charges += charge.Amount
+      }
+    })
 
-    this.BillAmount = this.Subtotal + this.Tax1 + this.Tax2 + this.Tax3 - this.DiscAmount
+
+    this.BillAmount = this.Subtotal + this.Tax1 + this.Tax2 + this.Tax3 + this.Charges - this.DiscAmount
+
+    // this.BillAmount += this.TaxAmount + this.Charges - this.OrderTotDisc
+
     this.BillAmount = +(+this.BillAmount.toFixed(0)).toFixed(2)
 
-    // this.additionalchargearray.forEach(charge => {
-    //   // console.log(charge.Description, charge.selected)
-    //   if (charge.selected) {
-    //     if (charge.ChargeType == 2) {
-    //       charge.Amount = Number((this.BillAmount / 100) * charge.ChargeValue)
-    //     } else {
-    //       charge.Amount = Number(charge.ChargeValue)
-    //     }
-    //     extracharge += charge.Amount
-    //     this.Charges += charge.Amount
-    //   }
-    // })
+
   }
 }
 
@@ -446,12 +452,12 @@ export class AdditionalCharge {
   TaxGroupId: number
   selected: boolean
   constructor(charge) {
-    this.Id = charge.Id
+    this.Id = charge.id
     this.Amount = 0
-    this.ChargeType = charge.ChargeType
-    this.ChargeValue = charge.ChargeValue
-    this.Description = charge.Description
-    this.TaxGroupId = charge.TaxGroupId
+    this.ChargeType = charge.chargeType
+    this.ChargeValue = charge.chargeValue
+    this.Description = charge.description
+    this.TaxGroupId = charge.taxGroupId
     this.selected = charge.selected
   }
 }
