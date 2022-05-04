@@ -12,14 +12,36 @@ import { map } from 'rxjs/operators'
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
+
+
+  isVisible = false;
+  isOkLoading = false;
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    this.addwastages()
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isOkLoading = false;
+    }, 3000);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
   CompanyId: any
   StoreId: any
   id: any
   taxgroups: any
   taxGroupId: number
   producttypes: any
-  units: any
-  optiondata:any
+
+  optiondata: any
   // kotgroups: any
   categories: any
   masterproduct: any = []
@@ -59,6 +81,13 @@ export class ProductsComponent implements OnInit {
   prodid = ''
   // listOfData = orders
   // listOfDisplayData = [...this.listOfData]
+
+  units: any = {
+    id: 0,
+    description: '',
+    companyId: 0
+  }
+
   mapOfSort: { [key: string]: any } = {
     id: null,
     name: null,
@@ -99,11 +128,15 @@ export class ProductsComponent implements OnInit {
       console.log(this.loginfo)
       this.getMasterproduct()
       this.gettax()
-   
       this.getproducttype()
       this.getUnits()
-      // this.getKotGroups()
       this.getCategories()
+
+      this.units = {
+        id: 0,
+        description: '',
+        companyId: this.loginfo.companyId
+      }
     })
   }
   open(): void {
@@ -146,6 +179,30 @@ export class ProductsComponent implements OnInit {
       this.prod = this.masterproduct.products.filter(x => x.isactive)
     }
     console.log(this.prod.length)
+  }
+
+
+
+  addwastages() {
+
+    console.log(this.units)
+    var obj = {}
+    Object.keys(this.units).forEach(key => {
+      obj[key.charAt(0).toUpperCase() + key.slice(1)] = this.units[key]
+    })
+    this.Auth.Addunits(obj).subscribe(data => {
+      this.Auth.updateunits(data['units']).subscribe(data => {
+        console.log(data)
+        this.units = {
+          id: 0,
+          description: '',
+          companyId: this.loginfo.companyId,
+        }
+        console.log(this.units)
+        this.getUnits()
+      })
+    })
+
   }
 
   getMasterproduct() {
@@ -197,11 +254,13 @@ export class ProductsComponent implements OnInit {
       // console.log(data);
     })
   }
+  unit: any
   getUnits() {
-    this.Auth.getUnits().subscribe(data => {
-      this.units = data
-      this.product.unitId = this.units[0].id
+    this.Auth.getUnits(this.loginfo.companyId).subscribe(data => {
+      this.unit = data
+      this.product.unitId = this.unit[0].id
       // console.log(data);
+      
     })
   }
   // getKotGroups() {

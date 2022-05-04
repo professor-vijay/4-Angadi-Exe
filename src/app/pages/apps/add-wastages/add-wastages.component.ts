@@ -64,7 +64,7 @@ export class AddWastagesComponent implements OnInit {
       }
       this.getproducts()
       this.getwastages()
-      this.getunits()
+      // this.getunits()
     })
 
 
@@ -83,13 +83,13 @@ export class AddWastagesComponent implements OnInit {
       console.log(this.wastage)
     })
   }
-  unit: any
-  getunits() {
-    this.Auth.getUnits().subscribe(data => {
-      this.unit = data
-      console.log(this.unit)
-    })
-  }
+  // unit: any
+  // getunits() {
+  //   this.Auth.getUnits().subscribe(data => {
+  //     this.unit = data
+  //     console.log(this.unit)
+  //   })
+  // }
 
 
   getproducts() {

@@ -135,9 +135,9 @@ export class AuthService {
     // return this.http.get(this.server_ip + ':8081/getproducttype')
   }
 
-  getUnits() {
-    return this.http.get(this.base_url1 + 'Product/getUnits')
-    // return this.http.get(this.server_ip + ':8081/getunit')
+  getUnits(CompanyId) {
+    return this.http.get(this.base_url1 + 'Product/getUnits?CompanyId=' + CompanyId)
+   
   }
 
   addProduct(product) {
@@ -946,6 +946,14 @@ export class AuthService {
   }
 
   updatewastagedb(data) {
+    return this.http.post(this.dburl + 'updatewastages', data)
+  }
+
+  Addunits(units) {
+    return this.http.post(this.base_url1 + 'Product/Addunits', units)
+  }
+
+  updateunits(data) {
     return this.http.post(this.dburl + 'updatewastages', data)
   }
 

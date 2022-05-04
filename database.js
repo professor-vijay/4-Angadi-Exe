@@ -417,6 +417,13 @@ app.post('/updatewastages', function (req, res) {
         res.send({ message: 'yes iam the server' })
     });
 })
+app.post('/updateunits', function (req, res) {
+    console.dir(req.body);
+    db.unitdb.update({ _id: req.body._id }, req.body, { upsert: true }, function (err, newDoc) {
+        console.log(newDoc) // Callback is optional
+        res.send({ message: 'yes iam the server' })
+    });
+})
 
 app.post('/updateadditional', function (req, res) {
     console.dir(req.body);

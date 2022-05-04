@@ -177,7 +177,7 @@ export class CategoryComponent implements OnInit {
     });
   }
   getUnits() {
-    this.Auth.getUnits().subscribe(data => {
+    this.Auth.getUnits(this.loginfo.companyId).subscribe(data => {
       this.units = data;
       console.log(data);
 

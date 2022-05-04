@@ -199,14 +199,33 @@
             <span class="cui-crypto-dashboard-form-label">vendor</span>
             <input type="text" class="form-control" placeholder="Enter Vendor..." />
           </div>
+
+
           <div class="mb-3">
-            <span class="cui-crypto-dashboard-form-label">Units</span>
-            <select [(ngModel)]="product.unitId" class="form-control"
+            <span class="cui-crypto-dashboard-form-label" style="padding: 10px;">Units</span>
+
+
+            <button nz-button nzType="primary" (click)="showModal()">
+              <span>Add-Unit</span>
+            </button>
+            <nz-modal [(nzVisible)]="isVisible" nzTitle="Add-Unit" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+              [nzOkLoading]="isOkLoading">
+              <input type="text" class="form-control" [(ngModel)]="units.description" placeholder="Enter Unit..." />
+
+            </nz-modal>
+
+
+            <select [(ngModel)]="product.unitId" class="form-control" style="    margin-top: 6px;"
               [ngClass]="{'is-invalid': submitted && product.unitId == 0}">
-              <option value="{{unit.id}}" *ngFor="let unit of units">{{unit.description}}</option>
+              <option value="{{unit.id}}" *ngFor="let unit of unit">{{unit.description}}</option>
             </select>
+
             <span *ngIf="submitted && product.unitId == 0" class="text-danger">Unit cannot Be Empty*</span>
           </div>
+
+
+
+
 
           <div class="mb-3" *ngIf="!(combinations.length > 0)">
             <span class="cui-crypto-dashboard-form-label">Barcode</span>
