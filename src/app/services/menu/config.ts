@@ -88,13 +88,13 @@ export const getMenuData: any[] = [
       {
         title: 'TaxGroup',
         key: 'appsSetting',
-        icon: 'fa fa-calculator',
+        icon: 'fa fa-list-alt',
         url: '/apps/taxgroup',
       },
       {
         title: 'Additional-Charge',
         key: 'appsSetting',
-        icon: 'fa fa-calculator',
+        icon: 'fa fa-money',
         url: '/apps/Additional-Charge',
       },
       // {
@@ -134,7 +134,7 @@ export const getMenuData: any[] = [
       {
         title: 'Purchase Entry',
         key: 'appsSetting',
-        icon: 'fe fe-shopping-bag',
+        icon: 'fa fa-truck',
         url: '/apps/purchaseentry',
       },
       {
@@ -161,7 +161,7 @@ export const getMenuData: any[] = [
       {
         title: 'Add-Wastages',
         key: 'appsSetting',
-        icon: 'fa fa-calendar-check-o',
+        icon: 'fa fa-recycle',
         url: '/apps/AddWastages',
       },
       {

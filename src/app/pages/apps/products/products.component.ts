@@ -56,7 +56,6 @@ export class ProductsComponent implements OnInit {
     taxGroupId: 0,
     productTypeId: 0,
     unitId: 0,
-    // kotGroupId: 0,
     price: null,
     productCode: null,
     CompanyId: 1,
@@ -260,7 +259,7 @@ export class ProductsComponent implements OnInit {
       this.unit = data
       this.product.unitId = this.unit[0].id
       // console.log(data);
-      
+
     })
   }
   // getKotGroups() {

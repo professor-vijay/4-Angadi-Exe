@@ -64,7 +64,7 @@ export class AddWastagesComponent implements OnInit {
       }
       this.getproducts()
       this.getwastages()
-      // this.getunits()
+      this.getunits()
     })
 
 
@@ -75,21 +75,22 @@ export class AddWastagesComponent implements OnInit {
     this.Auth.getswastages(this.loginfo.companyId).subscribe(data => {
       this.wastage = data;
       this.waste = this.wastage.wastages;
+    
       console.log(this.waste);
       for (let i = 0; i < this.wastage.wastages.length; i++) {
-        var obj = this.wastage.product.filter(x => x.productId == this.wastage.wastages[i].productId)    
+        var obj = this.wastage.product.filter(x => x.productId == this.wastage.wastages[i].productId)       
       }
-     
+
       console.log(this.wastage)
     })
   }
-  // unit: any
-  // getunits() {
-  //   this.Auth.getUnits().subscribe(data => {
-  //     this.unit = data
-  //     console.log(this.unit)
-  //   })
-  // }
+  unit: any
+  getunits() {
+    this.Auth.getUnits(this.loginfo.companyId).subscribe(data => {
+      this.unit = data
+      console.log(this.unit)
+    })
+  }
 
 
   getproducts() {
