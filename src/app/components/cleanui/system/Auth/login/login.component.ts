@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit {
         this.Auth.getstoredatadb(data1).subscribe(d => { console.log(d)})
       })
       localStorage.setItem('users', JSON.stringify(data))
-      localStorage.setItem("logState", "logged_in")
+      localStorage.setItem("logState", "logged_in") 
       this.router.navigate(['/auth/pinscreen'])
     })
   }

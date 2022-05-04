@@ -3,12 +3,7 @@ export const getMenuData: any[] = [
     category: true,
     title: 'BizDom',
   },
-  // {
-  //   title: 'Dashboards',
-  //   key: 'dashboards',
-  //   icon: 'fa fa-area-chart',
-  //   url: '/dashboard/alpha',
-  // },
+
   {
     title: 'Dashboard',
     key: 'dashboard',
@@ -27,54 +22,13 @@ export const getMenuData: any[] = [
     key: 'appsSetting',
     url: '/apps/receipt',
   },
-  // {
-  //   title: 'Orders',
-  //   icon: 'fa fa-server',
-  //   key: 'ecommerceOrders',
-  //   url: '/ecommerce/orders',
-  // },
-  // {
-  //   title: 'Batch Entry',
-  //   icon: 'fa fa-stack-overflow',
-  //   key: 'appsBatchEntry',
-  //   url: '/apps/batchentry',
-  // },
-  // {
-  //   title: 'Stock Entry',
-  //   icon: 'fa fa-th-large',
-  //   key: 'appsStockEntry',
-  //   url: '/apps/stockentry',
-  // },
+ 
   {
     title: 'Customers',
     key: 'appsSetting',
     icon: 'fe fe-users',
     url: '/apps/customer',
   },
-  // {
-  //   title: 'Internal Transfer',
-  //   key: 'appsInternalTransfer',
-  //   icon: 'fa fa-code-fork',
-  //   url: '/apps/internaltransfer',
-  // },
-
-
-  // {
-  //   title: 'Variant',
-  //   key: 'appsProductOptions',
-  //   icon : 'fe fe-copy',
-  //   url: '/apps/productoptions',
-  // },
-
-
-
-
-  // {
-  //   title: 'Needed Products',
-  //   key: 'appsaddproduct',
-  //   icon: 'fa fa-object-group',
-  //   url: '/apps/addproduct',
-  // },
 
   {
     title: 'Setting',
@@ -156,11 +110,7 @@ export const getMenuData: any[] = [
         url: '/apps/productoptions',
       },
       
-      // {
-      //   title: 'ProductOptions',
-      //   key: 'appsProductOptions',
-      //   url: '/apps/productoptions',
-      // },
+     
     ]
   },
 

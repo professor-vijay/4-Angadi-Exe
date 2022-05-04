@@ -13,6 +13,7 @@ db.printersettings = new Datastore({ filename: './database/printersettings.db', 
 db.paymenttypes = new Datastore({ filename: './database/paymenttypes.db', autoload: true });
 
 
+db.wastagedb = new Datastore({ filename: './database/wastage.db', autoload: true });
 db.transactionsdb = new Datastore({ filename: './database/transactions.db', autoload: true });
 db.transactionlogsdb = new Datastore({ filename: './database/transactionlogs.db', autoload: true });
 db.preordersdb = new Datastore({ filename: './database/preorders.db', autoload: true });
@@ -190,11 +191,20 @@ app.post('/insertproduct', function (req, res) {
 
 app.post('/batchproduct', function (req, res) {
     db.productdb.insert(req.body, function (err, newDoc) {   // Callback is optional
-        // Callback is optional
-        //  console.log(req.body.products)
         res.send({ message: 'data updated successfully' })
     });
 })
+
+// Master
+
+app.post('/updatestock', function (req, res) {
+    console.dir(req.body);
+    db.stockbatchdb.update({ _id: req.body._id }, req.body, { upsert: true }, function (err, newDoc) {
+        console.log(newDoc) // Callback is optional
+        res.send({ message: 'yes iam the server' })
+    });
+})
+
 
 app.get('/getlocal', function (req, res) {
     var product = req.query.getproducts
@@ -400,6 +410,14 @@ app.post('/saveorderdb', function (req, res) {
 //         res.send({ message: 'yes iam the server' })
 //     });
 // })
+app.post('/updatewastages', function (req, res) {
+    console.dir(req.body);
+    db.wastagedb.update({ _id: req.body._id }, req.body, { upsert: true }, function (err, newDoc) {
+        console.log(newDoc) // Callback is optional
+        res.send({ message: 'yes iam the server' })
+    });
+})
+
 app.post('/updateadditional', function (req, res) {
     console.dir(req.body);
     db.additionalchargesdb.update({ _id: req.body._id }, req.body, { upsert: true }, function (err, newDoc) {

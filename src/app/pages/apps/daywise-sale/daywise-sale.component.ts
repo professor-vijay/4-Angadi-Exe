@@ -44,10 +44,9 @@ export class DaywiseSaleComponent implements OnInit {
   }
 
   daywisesale() {
-    this.Auth.daywise(this.strdate, this.enddate, this.loginfo.storeId, this.loginfo.companyId, this.sourceid).subscribe(data => {
+    this.Auth.daywise(this.strdate, this.enddate, this.StoreId, this.CompanyId, this.sourceid).subscribe(data => {
       this.daysales = data["order"]
       console.log(this.daysales)
-
       this.TotalPayments = 0;
       this.TotalSales = 0;
       for (let i = 0; i < this.daysales.length; i++) {
@@ -83,7 +82,7 @@ export class DaywiseSaleComponent implements OnInit {
   }
 
   getmonthwise() {
-    this.Auth.GetMonthRpt(this.strdate, this.enddate, this.loginfo.storeId, this.loginfo.companyId).subscribe(data => {
+    this.Auth.GetMonthRpt(this.strdate, this.enddate,  this.StoreId, this.CompanyId).subscribe(data => {
       this.monthrpt = data["order"]
       console.log(this.monthrpt)
     })

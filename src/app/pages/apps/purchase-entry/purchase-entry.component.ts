@@ -8,6 +8,7 @@ import { debounceTime, map } from 'rxjs/operators'
 import { purchaselistmodule } from './purchase.module'
 import _ from "lodash";
 import { PrintService } from 'src/app/services/print/print.service'
+import { until } from 'protractor'
 
 
 @Component({
@@ -111,6 +112,9 @@ export class PurchaseEntryComponent implements OnInit {
     barcode_Id: 0,
     disc: null,
     taxpercent: 0,
+    warranty: '',
+    delivery: '',
+    unitId: ''
   }
   barcodeItem = { quantity: null, tax: 0, amount: 0, price: null, Tax1: 0, Tax2: 0 }
   barcodemode: boolean = false
@@ -198,6 +202,9 @@ export class PurchaseEntryComponent implements OnInit {
         barcode_Id: 0,
         disc: 0,
         product: '',
+        warranty: '',
+        delivery: '',
+        unitId: ''
       }
       8901803000179
     }
@@ -216,6 +223,8 @@ export class PurchaseEntryComponent implements OnInit {
       this.temporaryItem.quantity = null
       this.temporaryItem.price = null
       this.temporaryItem.disc = null
+      this.temporaryItem.warranty = null
+      this.temporaryItem.delivery = null
       this.temporaryItem = {
         Id: 0,
         quantity: null,
@@ -229,6 +238,9 @@ export class PurchaseEntryComponent implements OnInit {
         barcode_Id: 0,
         disc: 0,
         product: '',
+        warranty: '',
+        delivery: '',
+        unitId: ''
       }
       console.log(this.productinput)
       this.productinput['nativeElement'].focus()
@@ -366,6 +378,9 @@ export class PurchaseEntryComponent implements OnInit {
       barcode_Id: 0,
       disc: null,
       taxpercent: 0,
+      warranty: '',
+      delivery: '',
+      unitId: ''
     }
     this.barcodeItem = { quantity: null, tax: 0, amount: 0, price: null, Tax1: 0, Tax2: 0 }
 
@@ -384,14 +399,16 @@ export class PurchaseEntryComponent implements OnInit {
     VendorNumber: '',
     VendorAddress: '',
     ReceviedDate: '',
-    StoreId: 0
+    StoreId: 0,
+    warranty: '',
+    Delivery: '',
+    unitId: ''
   }
   // orderkey = { orderno: 1, timestamp: 0, GSTno: '' }
   payload: any
   ordNo = 0
   savepurchase() {
     console.log(this.ordNo)
-    // this.purchaselist.OrderNo = this.orderkey.orderno
     this.purchaselist.BillAmount = this.cartitems[0].BillAmount
     const arr = this.cartitems.map(x => {
       return {
@@ -406,9 +423,11 @@ export class PurchaseEntryComponent implements OnInit {
         VendorNumber: this.selectvendors.phoneNo,
         VendorAddress: this.selectvendors.address,
         ReceviedDate: moment().format('YYYY-MM-DD h:mm:ss'),
-        StoreId: this.loginfo.storeId
+        StoreId: this.loginfo.storeId,
+        warranty: x.warranty,
+        Delivery: x.delivery,
+        unitId: x.unitId
       }
-
     })
     console.log(arr)
     this.Auth.savepurchaselist(arr).subscribe(data => {
@@ -448,6 +467,9 @@ export class PurchaseEntryComponent implements OnInit {
           receivedDate: gp[key][0].receviedDate,
           storeId: gp[key][0].storeId,
           productTax: gp[key].map(qq => qq.productTax).reduce((prev, curr) => prev + curr, 0), //productTax,
+          delivery: gp[key][0].delivery,
+          warranty: gp[key][0].warranty,
+          unitId: gp[key][0].unitId,
           items: gp[key]
         }
         arr.push(obj)
@@ -456,7 +478,7 @@ export class PurchaseEntryComponent implements OnInit {
       this.purchase_list = arr.sort(mycomparator)
       this.masterlist = arr.sort(mycomparator)
       this.show = true
-      function mycomparator(a,b) {
+      function mycomparator(a, b) {
         return b.orderno - a.orderno
       }
 
@@ -490,7 +512,7 @@ export class PurchaseEntryComponent implements OnInit {
     this.purchase_list = this.term
       ? this.masterlist.filter(x => x.vendorName.toLowerCase().includes(this.term.toLowerCase()))
       : (this.dateFilter != "" && this.dateFilter != 'Invalid date') ? this.masterlist.filter(x => moment(x.receivedDate).format("YYYY-MM-DD") == this.dateFilter)
-      : this.masterlist
+        : this.masterlist
     console.log(this.purchase_list)
   }
 

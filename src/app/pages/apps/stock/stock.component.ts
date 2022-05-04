@@ -44,12 +44,17 @@ export class StockComponent implements OnInit {
   item: any
   loginfo
 
+  product: any = { quantity: 0 }
+
+
+
   ngOnInit(): void {
     this.Auth.getdbdata(['loginfo', 'printersettings']).subscribe(data => {
       this.loginfo = data['loginfo'][0]
       this.printersettings = data['printersettings'][0]
     })
     this.getproducts()
+    this.product = { quantity: 0}
   }
 
   getproducts() {
@@ -57,6 +62,14 @@ export class StockComponent implements OnInit {
       this.products = data
       this.prod = this.products
       console.log(this.products)
+    })
+  }
+  productstock = []
+  saveBatch() {
+    this.Auth.batchproductdb(this.product).subscribe(data => {
+      console.log(data)
+      this.productstock = []
+      this.notification.success("Stock Added", "Stock Added Successfully")
     })
   }
 
@@ -278,4 +291,54 @@ export class StockComponent implements OnInit {
       this.printservice.print(printtemplate, [this.printersettings.receiptprinter])
   }
 
+  // stockupdate: any = {
+  //   barCode: "",
+  //   barcodeId: 0,
+  //   categoryId: 0,
+  //   createdDate: "",
+  //   description: "",
+  //   description1: "",
+  //   expiaryDate: "",
+  //   isInclusive: false,
+  //   price: 0,
+  //   product: "",
+  //   productId: 0,
+  //   quantity: 0,
+  //   stockBatchId: 0,
+  //   tax1: 0,
+  //   tax2: 0,
+  //   tax3: 0,
+  //   unitId: 0,
+  // }
+
+  // Updatestock() {
+  //   var obj = {}
+  //   this.Auth.AddTaxGrp(obj).subscribe(data => {
+  //     console.log(data)
+  //     this.Auth.updatetaxgroupdb(data['taxgroup']).subscribe(data => {
+  //       this.stockupdate = {
+  //         barCode: "",
+  //         barcodeId: 0,
+  //         categoryId: 0,
+  //         createdDate: "",
+  //         description: "",
+  //         description1: "",
+  //         expiaryDate: "",
+  //         isInclusive: false,
+  //         price: 0,
+  //         product: "",
+  //         productId: 0,
+  //         quantity: 0,
+  //         stockBatchId: 0,
+  //         tax1: 0,
+  //         tax2: 0,
+  //         tax3: 0,
+  //         unitId: 0,
+  //       }
+  //     })
+  //   })
+  // }
+
 }
+
+

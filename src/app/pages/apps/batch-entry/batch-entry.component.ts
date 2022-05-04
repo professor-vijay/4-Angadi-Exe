@@ -10,11 +10,9 @@ import { NzNotificationService } from 'ng-zorro-antd'
   styleUrls: ['./batch-entry.component.scss']
 })
 export class BatchEntryComponent implements OnInit {
-  // groups:any = [];
   @ViewChild('barcodeel', { static: false }) public barcodeel: TemplateRef<any>;//productinput
   @ViewChild('quantityel', { static: false }) public quantityel: TemplateRef<any>;//productinput
   @ViewChild('priceel', { static: false }) public priceel: TemplateRef<any>;//productinput
-  // @ViewChild('expdateel', { static: false }) public expdateel: NzDatePickerComponent;//productinput
 
 
   dynamicRows: any = [];
@@ -24,10 +22,10 @@ export class BatchEntryComponent implements OnInit {
   product: any;
   filterproduct = [];
   inputValue: string = '';
-  batchentry = {barCode:null, code: '', barcodeId: null, quantity: null, price: null, expiarydate: "", companyid: 0, storeid: 0, productId: 0, product: null, batchno: 0, entrydatetime: "" }
+  batchentry = { barCode: null, code: '', barcodeId: null, quantity: null, price: null, expiarydate: "", companyid: 0, storeid: 0, productId: 0, product: null, batchno: 0, entrydatetime: "" }
   batchno = 0;
   batchdate = new Date();
-  batches:any = [];
+  batches: any = [];
   date = new Date();
   time = new Date();
   loginfo = null
@@ -39,7 +37,7 @@ export class BatchEntryComponent implements OnInit {
     this.Auth.getloginfo().subscribe(data => {
       this.loginfo = data
       this.getBatchProduct();
-      this.batchentry = {barCode:null, code: '', barcodeId: null, quantity: null, price: null, expiarydate: "", companyid: this.loginfo.companyId, storeid: this.loginfo.storeId, productId: 0, product: null, batchno: 0, entrydatetime: "" }
+      this.batchentry = { barCode: null, code: '', barcodeId: null, quantity: null, price: null, expiarydate: "", companyid: this.loginfo.companyId, storeid: this.loginfo.storeId, productId: 0, product: null, batchno: 0, entrydatetime: "" }
     })
     // setInterval(() => {
     //   this.batchdate = new Date();
@@ -52,8 +50,8 @@ export class BatchEntryComponent implements OnInit {
       this.batchno = data["lastbatchno"] + 1;
     })
   }
-  now(){
-      this.batchdate = new Date();
+  now() {
+    this.batchdate = new Date();
   }
   onInputAutocomplete() {
     console.log(this.products);
@@ -83,7 +81,7 @@ export class BatchEntryComponent implements OnInit {
       this.batchentry.barCode = null
       this.batchentry.entrydatetime = moment(this.batchdate).format('YYYY-MM-DD HH:MM A');
       this.batches.push(this.batchentry);
-      this.batchentry = { barCode:null, code: '',barcodeId: null, quantity: null, price: null, expiarydate: "", companyid: this.loginfo.companyId, storeid: this.loginfo.storeId, productId: 0, product: null, batchno: 0, entrydatetime: "" }
+      this.batchentry = { barCode: null, code: '', barcodeId: null, quantity: null, price: null, expiarydate: "", companyid: this.loginfo.companyId, storeid: this.loginfo.storeId, productId: 0, product: null, batchno: 0, entrydatetime: "" }
       this.inputValue = '';
       this.submitted = false;
       console.log(this.barcodeel);
@@ -121,8 +119,8 @@ export class BatchEntryComponent implements OnInit {
     return isvalid;
   }
   saveBatch() {
-    this.Auth.getbatchEntry(this.batches,20).subscribe(data => {
-      // console.log(data)
+    this.Auth.getbatchEntry(this.batches, 20).subscribe(data => {
+      console.log(data)
       this.Auth.batchproductdb(data["products"]).subscribe(data1 => {
         console.log(data1)
         this.batches = [];

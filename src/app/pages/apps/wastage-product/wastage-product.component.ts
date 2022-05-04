@@ -22,9 +22,7 @@ export class WastageProductComponent implements OnInit {
       this.CompanyId = this.loginfo.companyId
       this.StoreId = this.loginfo.storeId
       console.log(this.loginfo)
-
       this.getwastages()
-
     })
   }
 

@@ -39,7 +39,7 @@ export class ProductwiseSalesComponent implements OnInit {
 
   getprodwise(){
     this.TotalSale = 0
-    this.Auth.GetProdRpt(this.strdate, this.enddate, this.loginfo.storeId, this.loginfo.companyId).subscribe(data=>{
+    this.Auth.GetProdRpt(this.strdate, this.enddate, this.StoreId,  this.CompanyId).subscribe(data=>{
       this.ProdWise = data["order"]
       console.log(this.ProdWise)
 

@@ -91,6 +91,7 @@ import { OutletComponent } from './outlet/outlet.component';
 import { UserComponent } from './user/user.component';
 import { AddWastagesComponent } from './add-wastages/add-wastages.component';
 import { AdditionalChargeComponent } from './additional-charge/additional-charge.component';
+import { NgxPrintModule } from 'ngx-print'
 
 const COMPONENTS = [
   AppsMessagingComponent,
@@ -127,7 +128,8 @@ const COMPONENTS = [
     Ng2SearchPipeModule,
     ChartModule,
     ChartistModule,
-    NgxBarcodeModule
+    NgxBarcodeModule,
+    NgxPrintModule
   ],
   declarations: [
     ...COMPONENTS,

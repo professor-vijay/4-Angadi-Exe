@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material'
 import { NgxMonthPickerModule } from 'ngx-month-picker-range'
+import { NgxPrintModule } from 'ngx-print'
 
 import { JwtInterceptor } from './services/interceptors/jwt.interceptors'
 
@@ -53,6 +54,7 @@ registerLocaleData(localeEn, 'en')
     TranslateModule.forRoot(),
     NgxDaterangepickerMd.forRoot(),
     NgxMonthPickerModule,
+    NgxPrintModule,
 
     // ngrx
     StoreModule.forRoot(reducers, { metaReducers }),

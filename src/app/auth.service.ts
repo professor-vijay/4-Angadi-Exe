@@ -471,6 +471,7 @@ export class AuthService {
     return this.http.post(this.base_url1 + 'Product/updatetaxgroup', taxgroup)
   }
 
+
   updatepreference(preferences) {
     return this.http.post(this.base_url1 + 'Preference/updatepricetype', preferences)
   }
@@ -663,6 +664,8 @@ export class AuthService {
   getproducts() {
     return this.http.get(this.dburl + 'getproducts')
   }
+
+
   logorderevent(logdata) {
     return this.http.post(this.dburl + 'logorderevent', logdata)
   }
@@ -831,7 +834,7 @@ export class AuthService {
 
   GetProdRpt(fromdate, todate, Storeid, Companyid) {
     return this.http.get(
-      this.base_url1 +
+      this.base_url +
       'Daywise/GetProductWise?Storeid=' + Storeid + '&fromdate=' + fromdate + '&todate=' + todate + '&Companyid=' + Companyid)
   }
 
@@ -921,6 +924,34 @@ export class AuthService {
   EditOption(Id) {
     return this.http.get(this.base_url1 + "OptionGroup/GetById?Id=" + Id);
   }
+
+  getstockbatch(companyid) {
+    return this.http.get(this.base_url1 + "Product/getstockbatch?companyid=" + companyid);
+  }
+
+  Updatestockbatch(data) {
+    return this.http.post(this.base_url1 + 'Product/Updatestockbatch', data)
+  }
+
+  updatestockbatchdb(data) {
+    return this.http.post(this.dburl + 'updatestock', data)
+  }
+
+  getswastages(companyid) {
+    return this.http.get(this.base_url1 + "Wastage/Getwastages?companyid=" + companyid);
+  }
+
+  Addwastages(wastages) {
+    return this.http.post(this.base_url1 + 'Wastage/Addwastages', wastages)
+  }
+
+  updatewastagedb(data) {
+    return this.http.post(this.dburl + 'updatewastages', data)
+  }
+
+
+
+
 
 
 }

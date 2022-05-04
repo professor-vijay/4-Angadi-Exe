@@ -114,7 +114,7 @@ export class ReceiptComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.Auth.getdbdata(['loginfo', 'printersettings']).subscribe(data => {
+    this.Auth.getdbdata(['loginfo','printersettings']).subscribe(data => {
       this.loginfo = data['loginfo'][0]
       this.printersettings = data['printersettings'][0]
       this.CompanyId = this.loginfo.companyId

@@ -408,7 +408,6 @@ export class SaleComponent implements OnInit {
           product.quantity -= this.temporaryItem.Quantity
           Object.keys(product).forEach(key => {
             this.temporaryItem[key] = product[key]
-
           })
         }
       })

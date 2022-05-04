@@ -17,10 +17,6 @@
                 <button type="button" (click)="showModal()" style="height: 32px; margin-top: 16px;width: 122px;"
                     class="btn btn-success  ">+
                     Add-Wastage</button>
-
-                <!-- <button type="button" style="height: 32px; margin-top: 16px;width: 77px;"
-                    class="btn btn-success  pull-right">Save</button> -->
-
             </div>
 
         </div>
@@ -28,15 +24,15 @@
         <nz-modal [(nzVisible)]="isVisible" nzTitle="Add-Wastage" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
             [nzOkLoading]="isOkLoading">
             <span> <strong>Product</strong> </span>
-            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Product">
-                <nz-option *ngFor="let option of products" [nzLabel]="option.product" [nzValue]="option._id">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Product" [(ngModel)]="wastages.productId">
+                <nz-option *ngFor="let option of products" [nzLabel]="option.product" [nzValue]="option.productId">
                 </nz-option>
             </nz-select> <br> <br>
-            <span><strong>Wastage</strong> </span>
-            <input nz-input placeholder="" /><br> <br>
-
+            <span><strong>Wastage Qty</strong> </span>
+            <input nz-input placeholder="" [(ngModel)]="wastages.quantity" /><br> <br>
         </nz-modal>
-        <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="">
+
+        <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="waste">
             <thead>
                 <tr>
                     <th style="text-align: center;">
@@ -51,12 +47,12 @@
                     </th>
                     <th style="text-align: center;">
                         <strong>
-                            Stock Qty
+                         Barcode
                         </strong>
                     </th>
                     <th style="text-align: center;">
                         <strong>
-                            Expiary Date
+                            Wastage Date
                         </strong>
                     </th>
                     <th style="text-align: center;">
@@ -73,24 +69,24 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr *ngFor="let item of basicTable.data">
                     <td>
-
+                        {{item.product.name}}
+                    </td>
+                    <td>
+                        {{item.product.description}}
+                    </td>
+                    <td>
+                        {{item.product.barCode}}
+                    </td>
+                    <td>
+                        {{item.wastageDate | date: 'MMM d, h:mm a'}}
                     </td>
                     <td>
 
                     </td>
                     <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
+                        {{item.quantity}}
                     </td>
 
 

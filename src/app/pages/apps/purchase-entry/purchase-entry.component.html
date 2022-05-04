@@ -27,18 +27,14 @@
             <nz-table #orderTable nzSize="middle" [nzData]="purchase_list" class="kit__utils__table mb-4">
                 <thead>
                     <tr>
-                        <!-- <th>
-                            <strong>No</strong>
-                        </th> -->
+
                         <th>
                             <strong>OrderNo</strong>
                         </th>
                         <th>
                             <strong>Vendor</strong>
                         </th>
-                        <!-- <th>
-                            <strong> Quantity</strong>
-                        </th> -->
+
                         <th>
                             <strong>BillAmount</strong>
                         </th>
@@ -51,25 +47,15 @@
                         <th>
                             <strong> Received Date</strong>
                         </th>
-                        <!-- <th>
-                            <strong>PostalCode</strong>
-                        </th>
-                        <th>
-                            <strong>Email</strong>
-                        </th>
-                        <th>
-                            <strong>Total Order</strong>
-                        </th> -->
+
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let ord of orderTable.data; let i = index">
 
-                        <!-- <td>{{i+1}}</td> -->
                         <td> <a class="btn btn-sm btn-light kit__utils__donut--primary"
                                 (click)="getbyid(ord,contentdetail1);">{{ord.orderno}}</a></td>
                         <td>{{ord.vendorName}}</td>
-                        <!-- <td>{{ord.productQty}}</td> -->
                         <td>{{ord.billamount}}</td>
                         <td>{{ord.vendorAddress}}</td>
                         <td>{{ord.vendorNumber}}</td>
@@ -86,7 +72,6 @@
     <div [hidden]="show" class=" col-xl-12">
         <h5 class="ml-3 mt-3">
             <strong *ngIf="!(vendors.id > 0)">Add Purchase</strong>
-            <!-- <strong *ngIf="vendors.id > 0">Edit Vendors</strong> -->
         </h5>
         <div class="row">
             <nz-card style="height: 90% ;width:25%;" nzTitle="Select Product" [nzExtra]="extraTemplate">
@@ -121,28 +106,31 @@
                 <br>
                 <div>
                     <input #discel [(ngModel)]="temporaryItem.disc" onfocus="this.select()" placeholder="Disc..."
-                        type="number" class="form-control" (keyup.enter)="addItem()" />
+                        type="number" class="form-control" />
+                </div>
+                <br>
+                <div>
+                    <input #discel [(ngModel)]="temporaryItem.delivery" onfocus="this.select()"
+                        [(ngModel)]="temporaryItem.delivery" placeholder="Delivery..." type="text"
+                        class="form-control" />
+                </div>
+                <br>
+                <div>
+                    <input #discel [(ngModel)]="temporaryItem.warranty" onfocus="this.select()"
+                        [(ngModel)]="temporaryItem.warranty" placeholder="warranty..." type="text" class="form-control"
+                        (keyup.enter)="addItem()" />
                 </div>
                 <br>
             </nz-card>
             <ng-template #extraTemplate>
-                <!-- <a>
-              <button nz-button [disabled]="temporaryItem.quantity<1" nzType="primary" nzSize="small"
-                  (click)="addItem()">ADD</button>
-          </a> -->
+
                 <a href="javascript: void(0);" class="btn btn-sm btn-primary" (click)="addItem()">
                     <i class="fe fe-plus fa-lg"></i>
                 </a>
             </ng-template>
             <div class="col-xs-12 col-md-9 ">
                 <div class="card">
-                    <!-- <h2 class="badge-example">
-                  Purchase
-              </h2> -->
                     <div class="card-header card-header-flex">
-                        <!-- <div class=" justify-content-center mr-2 mt-3">
-                            <input nz-input type="number" [(ngModel)]="ordNo" placeholder="Order No" min="1" />
-                        </div> -->
                         <div class=" justify-content-center mr-auto mt-3">
                             <ng-template class="w-100" #vn let-r="result" let-t="term">
                                 <ngb-highlight [result]="r.businessName" [term]="t"></ngb-highlight>
@@ -161,10 +149,6 @@
                                 (click)="back()">Go
                                 Back</button>
                         </div>
-                        <!-- <div class="d-flex flex-column justify-content-center">
-                      <div class="text-uppercase text-muted text-nowrap">Grand Total</div>
-                      <div class="font-weight-bold text-dark"> 200</div>
-                    </div> -->
                     </div>
                     <nz-table #getproduct [nzShowPagination]="false" [nzData]="products" class="kit__utils__table">
                         <thead>
@@ -234,12 +218,6 @@
                             Grand Total: <span class="font-weight-bold font-size-24">&#8377;
                                 {{(ProductTax+subtotal)-discount}}</span>
                         </div>
-                        <!-- <a href="javascript: void(0);" class="btn btn-outline-success mr-3 mt-3">
-                      Print
-                  </a>
-                  <a href="javascript: void(0);" class="btn btn-success mt-3">
-                      Proceed Payment
-                  </a> -->
                     </div>
                 </div>
             </div>
@@ -287,4 +265,8 @@
         <button type="button" class="btn btn-primary" (click)="electronPrint()">Print</button>
         <button type="button" class="btn btn-primary" (click)="modal.close()">OK</button>
     </div>
-</ng-template>
+</ng-template> 
+
+
+
+
