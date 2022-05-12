@@ -43,7 +43,7 @@ export class PaymenttypesComponent implements OnInit {
   gettransrpt() {
     this.Auth.GetTrans(this.strdate, this.enddate, this.loginfo.storeId, this.loginfo.companyId).subscribe(data => {
       this.trans = data
-      this.storepayment = data['pos_transactions'];
+      this.storepayment = data['transactions'];
       this.transpayment = [];
       console.log(this.trans);
       console.log(this.transpayment)

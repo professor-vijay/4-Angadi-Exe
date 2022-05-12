@@ -135,9 +135,9 @@ export class AuthService {
     // return this.http.get(this.server_ip + ':8081/getproducttype')
   }
 
-  getUnits(CompanyId) {
-    return this.http.get(this.base_url1 + 'Product/getUnits?CompanyId=' + CompanyId)
-   
+  getUnits() {
+    return this.http.get(this.base_url1 + 'Product/getUnits')
+
   }
 
   addProduct(product) {
@@ -925,8 +925,13 @@ export class AuthService {
     return this.http.get(this.base_url1 + "OptionGroup/GetById?Id=" + Id);
   }
 
-  getstockbatch(companyid) {
-    return this.http.get(this.base_url1 + "Product/getstockbatch?companyid=" + companyid);
+  // getstockbatch(companyid) {
+  //   return this.http.get(this.base_url1 + "Product/getstockbatch?companyid=" + companyid);
+  // }
+  getstockbatch(fromdate, todate, Storeid, Companyid) {
+    return this.http.get(
+      this.base_url1 +
+      'Product/getstockbatch?Storeid=' + Storeid + '&fromdate=' + fromdate + '&todate=' + todate + '&Companyid=' + Companyid)
   }
 
   Updatestockbatch(data) {
@@ -957,6 +962,9 @@ export class AuthService {
     return this.http.post(this.dburl + 'updatewastages', data)
   }
 
+ refund(data) {
+    return this.http.post(this.base_url1 + 'Receipt/Pay', data)
+  }
 
 
 

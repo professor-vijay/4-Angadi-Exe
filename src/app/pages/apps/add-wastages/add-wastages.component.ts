@@ -53,7 +53,6 @@ export class AddWastagesComponent implements OnInit {
       this.loginfo = data['loginfo'][0]
       this.CompanyId = this.loginfo.CompanyId
       this.StoreId = this.loginfo.StoreId
-
       this.wastages = {
         id: 0,
         productId: 0,
@@ -86,7 +85,7 @@ export class AddWastagesComponent implements OnInit {
   }
   unit: any
   getunits() {
-    this.Auth.getUnits(this.loginfo.companyId).subscribe(data => {
+    this.Auth.getUnits().subscribe(data => {
       this.unit = data
       console.log(this.unit)
     })

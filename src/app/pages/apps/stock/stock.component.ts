@@ -43,6 +43,13 @@ export class StockComponent implements OnInit {
   products: any
   item: any
   loginfo
+  strdate: string
+  enddate: string
+  CompanyId: any
+  StoreId: any
+  date: { year: number; month: number }
+  dateRange = []
+  daterangemonth = []
 
   product: any = { quantity: 0 }
 
@@ -52,26 +59,40 @@ export class StockComponent implements OnInit {
     this.Auth.getdbdata(['loginfo', 'printersettings']).subscribe(data => {
       this.loginfo = data['loginfo'][0]
       this.printersettings = data['printersettings'][0]
+      this.CompanyId = this.loginfo.companyId
+      this.StoreId = this.loginfo.storeId
     })
+
+    this.strdate = moment().format('YYYY-MM-DD')
+    this.enddate = moment().format('YYYY-MM-DD')
     this.getproducts()
-    this.product = { quantity: 0}
+    // this.product = { quantity: 0}
+  }
+
+  onChange(result: Date): void {
+    console.log('onChange: ', result)
+    this.strdate = moment(result[0]).format('YYYY-MM-DD')
+    this.enddate = moment(result[1]).format('YYYY-MM-DD')
+    this.getproducts()
+
+
   }
 
   getproducts() {
-    this.Auth.getproducts().subscribe(data => {
-      this.products = data
+    this.Auth.getstockbatch(this.strdate, this.enddate, this.StoreId, this.CompanyId).subscribe(data => {
+      this.products = data 
       this.prod = this.products
       console.log(this.products)
     })
   }
-  productstock = []
-  saveBatch() {
-    this.Auth.batchproductdb(this.product).subscribe(data => {
-      console.log(data)
-      this.productstock = []
-      this.notification.success("Stock Added", "Stock Added Successfully")
-    })
-  }
+  // productstock = []
+  // saveBatch() {
+  //   this.Auth.batchproductdb(this.product).subscribe(data => {
+  //     console.log(data)
+  //     this.productstock = []
+  //     this.notification.success("Stock Added", "Stock Added Successfully")
+  //   })
+  // }
 
 
   showInactive: Boolean = false
@@ -291,53 +312,7 @@ export class StockComponent implements OnInit {
       this.printservice.print(printtemplate, [this.printersettings.receiptprinter])
   }
 
-  // stockupdate: any = {
-  //   barCode: "",
-  //   barcodeId: 0,
-  //   categoryId: 0,
-  //   createdDate: "",
-  //   description: "",
-  //   description1: "",
-  //   expiaryDate: "",
-  //   isInclusive: false,
-  //   price: 0,
-  //   product: "",
-  //   productId: 0,
-  //   quantity: 0,
-  //   stockBatchId: 0,
-  //   tax1: 0,
-  //   tax2: 0,
-  //   tax3: 0,
-  //   unitId: 0,
-  // }
-
-  // Updatestock() {
-  //   var obj = {}
-  //   this.Auth.AddTaxGrp(obj).subscribe(data => {
-  //     console.log(data)
-  //     this.Auth.updatetaxgroupdb(data['taxgroup']).subscribe(data => {
-  //       this.stockupdate = {
-  //         barCode: "",
-  //         barcodeId: 0,
-  //         categoryId: 0,
-  //         createdDate: "",
-  //         description: "",
-  //         description1: "",
-  //         expiaryDate: "",
-  //         isInclusive: false,
-  //         price: 0,
-  //         product: "",
-  //         productId: 0,
-  //         quantity: 0,
-  //         stockBatchId: 0,
-  //         tax1: 0,
-  //         tax2: 0,
-  //         tax3: 0,
-  //         unitId: 0,
-  //       }
-  //     })
-  //   })
-  // }
+  
 
 }
 

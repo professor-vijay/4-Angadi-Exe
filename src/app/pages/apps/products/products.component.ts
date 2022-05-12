@@ -255,7 +255,7 @@ export class ProductsComponent implements OnInit {
   }
   unit: any
   getUnits() {
-    this.Auth.getUnits(this.loginfo.companyId).subscribe(data => {
+    this.Auth.getUnits().subscribe(data => {
       this.unit = data
       this.product.unitId = this.unit[0].id
       // console.log(data);

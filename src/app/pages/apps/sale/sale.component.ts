@@ -18,6 +18,9 @@ import { debounceTime, map } from 'rxjs/operators'
 import { OrderItemModule, OrderModule, AdditionalCharge, Transaction } from './sale.module'
 import { SyncService } from 'src/app/services/sync/sync.service'
 import { PrintService } from 'src/app/services/print/print.service'
+import { select, Store } from '@ngrx/store'
+import * as SettingsActions from 'src/app/store/settings/actions'
+import * as Reducers from 'src/app/store/reducers'
 
 @Component({
   selector: 'app-sale',
@@ -153,6 +156,7 @@ export class SaleComponent implements OnInit {
     private sync: SyncService,
     config: NgbModalConfig,
     private printservice: PrintService,
+    private store: Store<any>,
   ) {
     config.backdrop = 'static'
     config.keyboard = false
@@ -161,18 +165,10 @@ export class SaleComponent implements OnInit {
 
   orderkey = { orderno: 1, timestamp: 0, GSTno: '' }
 
+
+
   ngOnInit(): void {
-    this.Auth.getdbdata(['loginfo', 'printersettings', 'orderkeydb', 'additionalchargesdb']).subscribe(data => {
-      this.loginfo = data['loginfo'][0]
-      this.printersettings = data['printersettings'][0]
-      this.orderkey = data["orderkeydb"][0]
-      this.charges = data["additionalchargesdb"]
-      localStorage.setItem('orderkey', JSON.stringify(this.orderkey))
-      this.CompanyId = this.loginfo.companyId
-      this.StoreId = this.loginfo.storeId
-      this.orderkeyValidation()
-      console.log(this.loginfo)
-    })
+    this.getData()
     // this.orderkey = localStorage.getItem('orderkey')
     //   ? JSON.parse(localStorage.getItem('orderkey'))
     //   : { orderno: 1, timestamp: 0, GSTno: '' }
@@ -207,6 +203,26 @@ export class SaleComponent implements OnInit {
       } else {
         localStorage.setItem('draftOrders', '[]')
       }
+    })
+
+    this.store.pipe(select(Reducers.getSettings)).subscribe(state => {
+      // if(this.stockchnageid != state.stockchnageid) {
+      this.getData()
+      // }
+    })
+
+  }
+  getData() {
+    this.Auth.getdbdata(['loginfo', 'printersettings', 'orderkeydb', 'additionalchargesdb']).subscribe(data => {
+      this.loginfo = data['loginfo'][0]
+      this.printersettings = data['printersettings'][0]
+      this.orderkey = data["orderkeydb"][0]
+      this.charges = data["additionalchargesdb"]
+      localStorage.setItem('orderkey', JSON.stringify(this.orderkey))
+      this.CompanyId = this.loginfo.companyId
+      this.StoreId = this.loginfo.storeId
+      this.orderkeyValidation()
+      console.log(this.loginfo)
     })
   }
   createOrder() {
@@ -252,29 +268,9 @@ export class SaleComponent implements OnInit {
 
   }
 
-  // createorder() {
-  //   // this.order = new OrderModule(ordertypeid)
-  //   // this.order.createdtimestamp = new Date().getTime()
-  //   this.charges.forEach(charge => {
-  //     this.order.additionalchargearray.push(new AdditionalCharge(charge))
-  //   })
-  //   if (![2, 3, 4].includes(this.order.OrderTypeId)) {
-  //     this.order.additionalchargearray.forEach(charge => {
-  //       charge.selected = false
-  //       console.log(this.order.additionalchargearray)
-  //     })
-  //   }
-  //   // this.order.StoreId = this.loginfo.storeId
-  //   // this.orderlogging('create_order')
-  //   // this.show = false
-  //   // this.sectionid = 2
-  //   // if (this.order.IsAdvanceOrder || this.order.OrderTypeId == 2) {
-  //   //   this.deliverydate = moment().format('YYYY-MM-DD')
-  //   //   this.deliverytime = moment().format('HH:MM')
-  //   // }
-  // }
 
   groupProduct() {
+    console.log("group products")
     var helper = {}
     this.groupedProducts = this.products.reduce((r, o) => {
       var key = o.barcodeId + '-'
@@ -397,6 +393,7 @@ export class SaleComponent implements OnInit {
     this.submitted = true
     this.barcodeMode = false
     if (this.validation()) {
+      console.log("add item")
       if (this.order.Items.some(x => x.stockBatchId == this.temporaryItem['stockBatchId'])) {
         this.order.Items.filter(x => x.stockBatchId == this.temporaryItem['stockBatchId'],)[0].OrderQuantity += this.temporaryItem.Quantity
         this.order.setbillamount()
@@ -419,9 +416,9 @@ export class SaleComponent implements OnInit {
       this.model = ''
       this.filteredvalues = []
       this.submitted = false
+      this.groupProduct()
       return
     }
-
   }
 
   getcustomerdetails(compid) {
@@ -557,7 +554,7 @@ export class SaleComponent implements OnInit {
       this.temporaryItem[key] = product[key]
     })
     this.modalService.dismissAll()
-    // this.addItem()
+
   }
   validation() {
     var isvalid = true
