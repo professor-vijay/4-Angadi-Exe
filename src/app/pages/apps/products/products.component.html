@@ -16,6 +16,11 @@
             <button nz-button nzType="primary" nzSearch><i nz-icon nzType="search"></i></button>
           </ng-template>
         </div>
+
+        <div class="col-xl-4" style="margin-top: 25px;">
+          <nz-range-picker  [(ngModel)]="dateRange" (ngModelChange)="onChange($event)">
+          </nz-range-picker>
+        </div>
         <div class="col-sm-auto row">
 
           <div class="form-group row py-3 mr-5">
@@ -33,7 +38,6 @@
         </div>
 
       </div>
-      <!-- <div class="card-body"> -->
       <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="prod">
         <thead>
           <tr>
@@ -60,14 +64,11 @@
                 Price
               </strong>
             </th>
-            <!-- <th nzShowSort [(nzSort)]="mapOfSort.shipping" (nzSortChange)="sort('shipping', $event)">
-                            Price
-                        </th> -->
-            <!-- <th nzShowSort [(nzSort)]="mapOfSort.quantity" (nzSortChange)="sort('quantity', $event)">
-                Quantity</th>
-              <th nzShowSort [(nzSort)]="mapOfSort.status" (nzSortChange)="sort('status', $event)">
-                Status
-              </th> -->
+            <th>
+              <strong>
+               Created Date
+              </strong>
+            </th>
             <th>
               <strong>
                 Active
@@ -95,6 +96,9 @@
             </td>
             <td>
               &#8377; {{product.price}}
+            </td>
+            <td>
+              {{product.createdDate | date: 'MMM d yyyy, h:mm a'}}
             </td>
             <!-- <td>
 

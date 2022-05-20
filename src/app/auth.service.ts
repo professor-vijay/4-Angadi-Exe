@@ -443,9 +443,11 @@ export class AuthService {
   prdactive(Id, active) {
     return this.http.get(this.base_url1 + 'Product/UpdateAct?Id=' + Id + '&active=' + active)
   }
-  getProduct(id, compId) {
-    return this.http.get(this.base_url1 + 'Product/GetById?id=' + id + '&compId=' + compId)
+
+  getProduct(id, compId, fromdate, todate) {
+    return this.http.get(this.base_url1 + 'Product/GetById?id=' + id + '&compId=' + compId + '&fromdate=' + fromdate + '&todate=' + todate)
   }
+
   saveorderdb(order) {
     return this.http.post(this.server_ip + ':8081/saveorderdb', { order: order })
   }
@@ -946,6 +948,9 @@ export class AuthService {
     return this.http.get(this.base_url1 + "Wastage/Getwastages?companyid=" + companyid);
   }
 
+  getstockbat(companyid) {
+    return this.http.get(this.base_url1 + "Product/stockbatchget?companyid=" + companyid);
+  }
   Addwastages(wastages) {
     return this.http.post(this.base_url1 + 'Wastage/Addwastages', wastages)
   }
@@ -962,8 +967,13 @@ export class AuthService {
     return this.http.post(this.dburl + 'updatewastages', data)
   }
 
- refund(data) {
+  refund(data) {
     return this.http.post(this.base_url1 + 'Receipt/Pay', data)
+  }
+
+
+  getpreorderby_id(orderid) {
+    return this.http.get(this.dburl + 'getpreorderby_id?_id=' + orderid)
   }
 
 

@@ -849,6 +849,14 @@ app.get('/syncdata', function (req, response) {
     })
 })
 
+app.get('/getpreorderby_id', function (req, res) {
+    console.log(req.ip, req.hostname)
+    db.preordersdb.findOne({ _id: req.query._id }, function (err1, docs) { // Callback is optional
+        console.log('Line: 203', err1)
+        res.send(docs)
+    })
+});
+
 // pre save order
 app.get('/getpreorders', function (req, res) {
     db.preordersdb.find({ status: "P" }, function (err1, docs) {   // Callback is optional

@@ -12,8 +12,8 @@
                       <ngb-highlight [result]="r.product" [term]="t"></ngb-highlight>
                     </ng-template>
                     <input #productautocomplete id="typeahead-template" onfocus="this.select()"
-                      [ngClass]="{'is-invalid':submitted && !temporaryItem.productId}"
-                      style="height: 84%;" #instance="ngbTypeahead" type="text" class="form-control" [(ngModel)]="model"
+                      [ngClass]="{'is-invalid':submitted && !temporaryItem.productId}" style="height: 84%;"
+                      #instance="ngbTypeahead" type="text" class="form-control" [(ngModel)]="model"
                       placeholder="Search Product..." [ngbTypeahead]="search" [resultTemplate]="rt"
                       [inputFormatter]="formatter"
                       (selectItem)="selectedItem(batchproductmodal, $event.item.barcodeId)" />
@@ -85,14 +85,61 @@
                 (click)="order.StorePaymentTypeId = 0;order.PaidAmount = 0" class="btn btn-squared">
                 Unpaid
             </button> -->
+
+      <button nz-button class="btn btn-outline-success" style="height: auto" (click)="showModal()">
+        <span>Split payment</span>
+      </button>
+
+
+      <nz-modal [(nzVisible)]="isVisible" nzTitle="Split Payment" (nzOnCancel)="handleCancel()">
+        <div *ngIf="order">
+
+          <div class="col-lg-12">
+            <strong>Bill Amount: </strong> <span>{{order.BillAmount}}</span>
+            <strong style="margin-left: 110px;">Total Split Amount: </strong> <span>{{splitpaymenttotal}}</span>
+          </div><br>
+          <!-- <input type="number"  nz-input placeholder="Cash"> <br> <br>
+          <input type="number"  nz-input placeholder="Online Payment"> <br> <br> -->
+          <div class="col-lg-12 row" *ngFor="let transaxn of storePaymentTypes" style="align-items: center;">
+            <div class="col-lg-6 pl-0">
+              <label [style.color]="transaxn.Amount>0 ? '#48a6b6' : 'black'" class="form-check-lable">{{transaxn.name}}
+              </label>
+            </div>
+            <div class="col-lg-6 row" style="align-items: center;">
+              <span>₹</span>
+              <input id="{{transaxn.id}}" name="{{transaxn.name}}" type="number" (input)="calculatesplitpaymenttotal()"
+                class="form-control " style="width: 182px;" [(ngModel)]="transaxn.Amount">
+            </div>
+          </div>
+
+          <span class="text-danger" *ngIf="splitpaymenttotal > order.BillAmount"
+            style="font-size: 10px; position: absolute;">* Total Amount EXCEEDING the Ammount
+            Payable</span>
+          <span class="text-danger" *ngIf="splitpaymenttotal == 0" style="font-size: 10px; position: absolute;">*
+            Amount can't be ZERO or LESSER</span>
+
+          <div *nzModalFooter>
+            <button nz-button nzType="danger" (click)="resetsplitpayment()">Reset</button>
+            <button nz-button nzType="default" (click)="cancelsplitpayment()">Back</button>
+            <button nz-button nzType="primary" [disabled]="splitpaymenttotal == 0 || splitpaymenttotal > order.BillAmount" (click)="confirmsplitpayment()">Ok</button>
+
+          </div>
+
+        </div>
+
+      </nz-modal>
+
+
+      <!-- <nz-modal [(nzVisible)]="isVisible" nzTitle="Split Payment" (nzOnReset)="handleReset()" (nzOnOk)="handleOk()"
+        [nzOkLoading]="isOkLoading">
+       
+      </nz-modal> -->
+
       <button class="btn btn-warning ml-3" [disabled]="order&&order.Items.length == 0" (click)="draftOrder()">
         <i class="fa fa-save"></i>
         Draft
       </button>
-      <!-- <button class="btn btn-warning ml-3" >
-        <i class="fa fa-save"></i>
-       Additional charge
-      </button> -->
+
     </div>
     <div *ngIf="order&&order.Items.length" class="text-right font-size-18 text-dark p-4 rounded bg-light">
       <div>

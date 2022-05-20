@@ -89,6 +89,8 @@ export class PurchasemaintComponent implements OnInit {
     //  TransDate:moment(new Date()).format("DD/MM/YYYY"),
     CreatedDate: new Date(),
   }
+  strdate: any
+  enddate: any
   // contactId:this.contactId,
   // responsibleById:this.DispatchById, contactType:this.contacttype,
   constructor(
@@ -401,7 +403,7 @@ export class PurchasemaintComponent implements OnInit {
   }
 
   getproducts() {
-    this.Auth.getProduct(this.id, (this.companyId = 1)).subscribe(data => {
+    this.Auth.getProduct(this.id, (this.companyId = 1), this.strdate, this.enddate,).subscribe(data => {
       this.products = data['products']
       console.log(this.products)
     })

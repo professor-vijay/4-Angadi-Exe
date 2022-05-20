@@ -8,6 +8,7 @@ import { NzNotificationService } from 'ng-zorro-antd'
 import { merge, Observable, Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators'
 import { PrintService } from 'src/app/services/print/print.service'
+import { SyncService } from 'src/app/services/sync/sync.service'
 
 @Component({
   selector: 'app-stock',
@@ -16,7 +17,7 @@ import { PrintService } from 'src/app/services/print/print.service'
 })
 export class StockComponent implements OnInit {
   model: any = 'QWERTY'
-  inputValue: string = ''
+
   @ViewChild('instance', { static: true }) instance: NgbTypeahead
   focus$ = new Subject<string>()
   click$ = new Subject<string>()
@@ -27,7 +28,7 @@ export class StockComponent implements OnInit {
   @ViewChild('disc', { static: false }) public discel: TemplateRef<any>
   @ViewChild('productautocomplete', { static: false }) public productinput: TemplateRef<any>
   @ViewChild('scrollframe', { static: false }) scrollFrame: ElementRef
-  // @ViewChild('cardnumber', { static: false }) cardnumber: ElementRef;
+
 
 
 
@@ -36,6 +37,7 @@ export class StockComponent implements OnInit {
     private Auth: AuthService,
     private notification: NzNotificationService,
     private printservice: PrintService,
+    private sync: SyncService,
   ) { }
 
   prod: any
@@ -43,15 +45,17 @@ export class StockComponent implements OnInit {
   products: any
   item: any
   loginfo
-  strdate: string
-  enddate: string
+  strdate: string = null
+  enddate: string = null
   CompanyId: any
   StoreId: any
   date: { year: number; month: number }
   dateRange = []
   daterangemonth = []
+  categories: any
+  inputValue: string = '';
+  filterproduct = [];
 
-  product: any = { quantity: 0 }
 
 
 
@@ -61,12 +65,10 @@ export class StockComponent implements OnInit {
       this.printersettings = data['printersettings'][0]
       this.CompanyId = this.loginfo.companyId
       this.StoreId = this.loginfo.storeId
+      this.sync.sync()
+      this.getproducts()
+      this.getcategory()
     })
-
-    this.strdate = moment().format('YYYY-MM-DD')
-    this.enddate = moment().format('YYYY-MM-DD')
-    this.getproducts()
-    // this.product = { quantity: 0}
   }
 
   onChange(result: Date): void {
@@ -74,25 +76,43 @@ export class StockComponent implements OnInit {
     this.strdate = moment(result[0]).format('YYYY-MM-DD')
     this.enddate = moment(result[1]).format('YYYY-MM-DD')
     this.getproducts()
-
-
   }
 
+  onInputAutocomplete() {
+    console.log(this.filterproduct);
+    this.filterproduct = this.categories.filter(x => x.description.toLowerCase().includes(this.inputValue));
+   
+  }
+
+
+  getcategory() {
+    this.Auth.getcategories(this.loginfo.companyId, 'A').subscribe(data => {
+      this.categories = data;
+      console.log(this.categories)
+    })
+  }
+
+
   getproducts() {
-    this.Auth.getstockbatch(this.strdate, this.enddate, this.StoreId, this.CompanyId).subscribe(data => {
-      this.products = data 
+    this.Auth.getstockbatch(this.strdate, this.enddate, this.loginfo.storeId, this.loginfo.companyId).subscribe(data => {
+      this.products = data
       this.prod = this.products
       console.log(this.products)
     })
   }
-  // productstock = []
-  // saveBatch() {
-  //   this.Auth.batchproductdb(this.product).subscribe(data => {
-  //     console.log(data)
-  //     this.productstock = []
-  //     this.notification.success("Stock Added", "Stock Added Successfully")
-  //   })
-  // }
+
+
+  saveBatch() {
+    console.log(this.products.filter(x => x.stockQty != x.quantity))
+    this.Auth.Updatestockbatch(this.products.filter(x => x.stockQty != x.quantity)).subscribe(data1 => {
+      console.log(data1)
+      this.sync.sync()
+      this.Auth.updatestockbatchdb(data1['stockBatch']).subscribe(data => {
+        this.getproducts()
+        this.notification.success("Stock Added", "Stock Added Successfully")
+      })
+    })
+  }
 
 
   showInactive: Boolean = false
@@ -111,7 +131,7 @@ export class StockComponent implements OnInit {
   filteredvalues = [];
   filtersearch(): void {
     this.prod = this.term
-      ? this.prod.filter(x => x.product.toLowerCase().includes(this.term.toLowerCase()))
+      ? this.prod.filter(x => x.name.toLowerCase().includes(this.term.toLowerCase()))
       : this.prod;
     console.log(this.prod)
   }
@@ -312,7 +332,7 @@ export class StockComponent implements OnInit {
       this.printservice.print(printtemplate, [this.printersettings.receiptprinter])
   }
 
-  
+
 
 }
 

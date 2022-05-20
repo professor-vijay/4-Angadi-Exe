@@ -28,6 +28,8 @@ export class OrderModule {
   DeliveryDateTime: string
   DispatchStatus: number
   DifferentPercent: number
+  datastatus: string
+  status: string
   events: Array<any>
   Id: number
   InvoiceNo: string
@@ -97,6 +99,8 @@ export class OrderModule {
     this.CustomerId = 0
     this.CompanyId = 0
     this.CustomerDetails = new CustomerModule()
+    this.datastatus = 'new_order'
+    this.status = 'P'
     this.DiscPercent = 0
     this.DiscAmount = 0
     this.DeliveryDateTime = ''
@@ -190,7 +194,7 @@ export class OrderModule {
       this.TaxAmount += item.TaxAmount
       this.DiscAmount += item.DiscAmount
     })
-    
+
     this.additionalchargearray.forEach(charge => {
       console.log(charge.Description, charge.selected)
       if (charge.selected) {
@@ -216,7 +220,7 @@ export class OrderModule {
 }
 
 export class Transaction {
-  // Id: number
+  Id: number
   Amount: number
   CustomerId: number
   CompanyId: number
@@ -234,18 +238,21 @@ export class Transaction {
   UserId: number
   Remaining: number
 
-  constructor(amount = 0, spt = 0) {
+  constructor(amount = 0, spt = 0, storeid = 0, companyid = 0, invoiceno = '', sptname = '', transtype = 1) {
+    this.Id = 0
     this.Amount = amount
-    this.CompanyId = 0
+    this.CompanyId = companyid
     this.CustomerId = 0
-    this.InvoiceNo = ''
+    this.InvoiceNo = invoiceno
     this.OrderId = 0
     this.PaymentStatusId = 0
     this.PaymentTypeId = 6
     this.StorePaymentTypeId = spt
-    this.StoreId = 0
-    this.StorePaymentTypeName = ''
-    this.TranstypeId = 0
+    this.StoreId = storeid
+    this.StorePaymentTypeName = sptname
+    this.TranstypeId = transtype
+    this.TransDateTime = moment().format('YYYY-MM-DD HH:mm:ss')
+    this.TransDate = moment().format('YYYY-MM-DD HH:mm:ss')
   }
 }
 

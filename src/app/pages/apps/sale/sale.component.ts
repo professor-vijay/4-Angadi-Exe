@@ -46,8 +46,8 @@ export class SaleComponent implements OnInit {
   charges = []
   deliverydate
   deliverytime
-  transactionlist: Array<Transaction> = null
-  issplitpayment: boolean = false
+  transactionlist: Array<Transaction> = []
+
   name: any
   phoneNo: any
   city: any
@@ -169,9 +169,6 @@ export class SaleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData()
-    // this.orderkey = localStorage.getItem('orderkey')
-    //   ? JSON.parse(localStorage.getItem('orderkey'))
-    //   : { orderno: 1, timestamp: 0, GSTno: '' }
     this.Auth.getloginfo().subscribe(data => {
       this.loginfo = data
       this.createOrder()
@@ -180,7 +177,6 @@ export class SaleComponent implements OnInit {
       this.getproducts()
       this.getcustomers()
       this.GetStorePaymentType()
-      // this.createorder()
       this.temporaryItem.Quantity = null
       this.products.forEach(product => {
         product.Quantity = null
@@ -206,9 +202,7 @@ export class SaleComponent implements OnInit {
     })
 
     this.store.pipe(select(Reducers.getSettings)).subscribe(state => {
-      // if(this.stockchnageid != state.stockchnageid) {
       this.getData()
-      // }
     })
 
   }
@@ -265,9 +259,7 @@ export class SaleComponent implements OnInit {
 
       console.log(data)
     })
-
   }
-
 
   groupProduct() {
     console.log("group products")
@@ -334,11 +326,6 @@ export class SaleComponent implements OnInit {
     })
     this.Auth.addCustomerdb(this.customerdetails).subscribe(
       data => {
-        // this.notification.success(
-        //   'Customer Added!',
-        //   `${this.order.CustomerDetails.Name} added successfully.`,
-        // )
-        // this.order.CustomerDetails.datastatus = 'old'
       },
       error => { },
       () => {
@@ -481,7 +468,6 @@ export class SaleComponent implements OnInit {
     this.order.setbillamount()
   }
   clearallorders() {
-    // this.order = new OrderModule(6)
     this.clearDraftOrder()
     this.createOrder()
   }
@@ -523,20 +509,98 @@ export class SaleComponent implements OnInit {
     this.isVisible = true
   }
 
-  handleOk(): void {
-    this.isVisible = false
-  }
+  // handleOk(): void {
+  //   this.isVisible = false
+  // }
 
   handleCancel(): void {
     this.isVisible = false
   }
+
+  // handleReset(): void {
+  //   this.isVisible = false
+
+  // }
+
+
   openCustomClass(content) {
     this.modalService.open(content, { centered: true })
   }
   opensplit(content) {
     this.modalService.open(content, { centered: true })
   }
-  ////////////////////////////////////////dfgdfhsfhgj?//////////////////////////////////
+
+  splitpaymenttotal = 0
+
+  resetsplitpayment() {
+    console.log(this.paymentTypes)
+    this.transactionlist = []
+    this.paymentTypes.forEach(pt => {
+      var transaction = new Transaction()
+      transaction = new Transaction()
+      transaction.Remaining = this.order.BillAmount
+      transaction.Amount = 0
+      transaction.OrderId = this.order.OrderId
+      transaction.StoreId = this.loginfo.StoreId
+      transaction.TransDate = moment().format('YYYY-MM-DD')
+      transaction.TransDateTime = moment().format('YYYY-MM-DD HH:mm')
+      transaction.TranstypeId = 1
+      transaction.UserId = this.order.UserId
+      transaction.CompanyId = this.order.CompanyId
+      transaction.CustomerId = this.order.CustomerDetails.Id
+      transaction.StorePaymentTypeName = pt.Description
+      transaction.StorePaymentTypeName = this.storePaymentTypes.filter(
+        x => x.id == transaction.StorePaymentTypeId,
+      )[0].name
+      transaction.StorePaymentTypeId = pt.Id
+      this.transactionlist.push(transaction)
+    })
+  }
+
+  cancelsplitpayment() {
+    this.order.PaidAmount = 0
+    this.order.StorePaymentTypeId = 0
+    this.transactionlist = []
+    this.calculatesplitpaymenttotal()
+  }
+
+  calculatesplitpaymenttotal() {
+    this.splitpaymenttotal = 0
+    console.log(this.order.Transactions)
+    this.storePaymentTypes.forEach(trxn => {
+      this.splitpaymenttotal += trxn.Amount ? trxn.Amount : 0
+    })
+    console.log(this.splitpaymenttotal, this.storePaymentTypes)
+  }
+
+  confirmsplitpayment() {
+    console.log(this.order.PaidAmount, this.splitpaymenttotal)
+    this.order.PaidAmount = this.splitpaymenttotal
+
+    this.isVisible = false
+  }
+
+  // makesplitpayment() {
+  //   var transactionarray = this.transactionlist.filter(x => x.Amount > 0)
+  //   this.Auth.getpreorderby_id(this.temporder['_id']).subscribe(data => {
+  //     this.temporder.status = 'P'
+  //     this.temporder.OrderId = data['OrderId']
+  //     if (this.temporder.OrderId > 0) {
+  //       this.temporder.datastatus = 'edit_order'
+  //     } else {
+  //       this.temporder.datastatus = 'new_order'
+  //     }
+  //     transactionarray.forEach(tr => {
+  //       if (tr.TranstypeId == 1) this.temporder.PaidAmount += tr.Amount
+  //       else if (tr.TranstypeId == 2) this.temporder.PaidAmount -= tr.Amount
+  //       tr.OrderId = this.temporder.OrderId
+  //       tr.InvoiceNo = this.temporder.InvoiceNo
+  //     })
+
+  //     this.modalService.dismissAll()
+  //   })
+  // }
+  ////////////////////////////////////////vijay//////////////////////////////////
   batchproduct: any = []
   selectedItem(batchproduct, barcodeId) {
     this.batchproduct = this.products.filter(x => x.barcodeId == barcodeId && x.quantity > 0)
@@ -575,7 +639,6 @@ export class SaleComponent implements OnInit {
       orderkey_obj = this.orderkey
     }
     if (new Date(orderkey_obj.timestamp).getDate() != todate) {
-      // orderkey_obj.kotno = 1
       orderkey_obj.orderno = 1
     }
     orderkey_obj.timestamp = new Date().getTime()
@@ -588,27 +651,6 @@ export class SaleComponent implements OnInit {
   transaction: Transaction
   currentitem: OrderItemModule = null
 
-  // splitpayment() {
-  //   this.transactionlist = []
-  //   this.issplitpayment = true
-  //   this.paymentTypes.forEach(pt => {
-  //     var transaction = new Transaction()
-  //     transaction = new Transaction()
-  //     transaction.Remaining = this.temporder.BillAmount - this.temporder.PaidAmount
-  //     transaction.Amount = 0
-  //     transaction.OrderId = this.temporder.OrderId
-  //     transaction.StoreId = this.loginfo.storeId
-  //     transaction.TransDate = moment().format('YYYY-MM-DD')
-  //     transaction.TransDateTime = moment().format('YYYY-MM-DD HH:mm')
-  //     transaction.TranstypeId = 1
-  //     transaction.UserId = this.temporder.UserId
-  //     transaction.CompanyId = this.temporder.CompanyId
-  //     transaction.CustomerId = this.temporder.CustomerDetails.Id
-  //     transaction.StorePaymentTypeName = pt.Description
-  //     transaction.StorePaymentTypeId = pt.Id
-  //     this.transactionlist.push(transaction)
-  //   })
-  // }
 
   // saveOrder
   saveOrder() {
@@ -634,7 +676,10 @@ export class SaleComponent implements OnInit {
     this.order.SuppliedById = 12
     this.order.UserId = this.user.id
     if (this.order.PaidAmount > 0) {
-      if (this.order.StorePaymentTypeId != -1) {
+      console.log(this.order.StorePaymentTypeId);
+      // return
+      console.log(transaction)
+      if (this.order.StorePaymentTypeId > 0) {
         var transaction = new Transaction(this.order.PaidAmount, this.order.StorePaymentTypeId)
         transaction.StorePaymentTypeId = this.order.StorePaymentTypeId
         transaction.OrderId = this.order.OrderId
@@ -653,15 +698,22 @@ export class SaleComponent implements OnInit {
         )[0].name
         this.transaction = transaction
         this.order.Transactions.push(this.transaction)
-      } else if (this.order.StorePaymentTypeId == -1) {
-        this.transactionlist = this.transactionlist.filter(x => x.Amount > 0)
-        this.transactionlist.forEach(trxn => {
-          trxn.InvoiceNo = this.order.InvoiceNo
-          trxn.CompanyId = this.order.CompanyId
-          trxn.StoreId = this.loginfo.storeId
-          trxn.saved = true
-          this.order.Transactions.push(trxn)
-        })
+      } else if (this.order.StorePaymentTypeId == 0) {
+        this.storePaymentTypes.forEach(spt => {
+          if (spt.Amount && spt.Amount > 0)
+            this.transactionlist.push(new Transaction(spt.Amount, spt.id, this.order.StoreId, this.order.CompanyId, this.order.InvoiceNo, spt.name, 1))
+        });
+        console.log(this.transactionlist);
+        this.order.Transactions = this.transactionlist
+        // return
+        // this.transactionlist = this.transactionlist.filter(x => x.Amount > 0)
+        // this.transactionlist.forEach(trxn => {
+        //   trxn.InvoiceNo = this.order.InvoiceNo
+        //   trxn.CompanyId = this.order.CompanyId
+        //   trxn.StoreId = this.loginfo.storeId
+        //   trxn.saved = true
+        //   this.order.Transactions.push(trxn)
+        // })
       }
       this.order.StorePaymentTypeName = this.order.Transactions[0].StorePaymentTypeName
       this.printreceipt()
