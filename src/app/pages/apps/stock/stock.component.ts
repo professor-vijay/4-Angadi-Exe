@@ -55,9 +55,7 @@ export class StockComponent implements OnInit {
   categories: any
   inputValue: string = '';
   filterproduct = [];
-
-
-
+  prodFilters: Array<{ key: string; value: any | any[] }> = [];
 
   ngOnInit(): void {
     this.Auth.getdbdata(['loginfo', 'printersettings']).subscribe(data => {
@@ -81,14 +79,19 @@ export class StockComponent implements OnInit {
   onInputAutocomplete() {
     console.log(this.filterproduct);
     this.filterproduct = this.categories.filter(x => x.description.toLowerCase().includes(this.inputValue));
-   
+
   }
 
-
+  setcategory(e) {
+    console.log(e); //nzValue
+    console.log(e.element.nativeElement.id); //nzValue
+    this.prod = this.products.filter(x => x.categoryId == +e.element.nativeElement.id)
+  }
   getcategory() {
     this.Auth.getcategories(this.loginfo.companyId, 'A').subscribe(data => {
       this.categories = data;
       console.log(this.categories)
+
     })
   }
 
@@ -98,6 +101,7 @@ export class StockComponent implements OnInit {
       this.products = data
       this.prod = this.products
       console.log(this.products)
+      this.changefilter(false)
     })
   }
 
@@ -122,7 +126,7 @@ export class StockComponent implements OnInit {
     if (bool) {
       this.prod = this.products.filter(x => x.quantity < 6)
     } else {
-      this.prod = this.products.filter(x => x.quantity)
+      this.prod = this.products.filter(x => x.quantity > 0 )
 
     }
     console.log(this.prod.length)

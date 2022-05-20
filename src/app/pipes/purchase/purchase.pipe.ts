@@ -13,3 +13,4 @@ export class PurchasePipe implements PipeTransform {
   }
 
 }
+

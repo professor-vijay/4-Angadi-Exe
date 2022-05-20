@@ -74,12 +74,10 @@ export class AddWastagesComponent implements OnInit {
     this.Auth.getswastages(this.loginfo.companyId).subscribe(data => {
       this.wastage = data;
       this.waste = this.wastage.wastages;
-    
       console.log(this.waste);
       for (let i = 0; i < this.wastage.wastages.length; i++) {
-        var obj = this.wastage.product.filter(x => x.productId == this.wastage.wastages[i].productId)       
+        var obj = this.wastage.product.filter(x => x.productId == this.wastage.wastages[i].productId)
       }
-
       console.log(this.wastage)
     })
   }
@@ -109,19 +107,8 @@ export class AddWastagesComponent implements OnInit {
 
 
     this.Auth.Addwastages(obj).subscribe(data => {
-      this.Auth.updatewastagedb(data['wastages']).subscribe(data => {
-        console.log(data)
-        this.wastages = {
-          id: 0,
-          productId: 0,
-          quantity: 0,
-          wastagedate: moment().format('YYYY-MM-DD HH:MM A'),
-          companyId: this.loginfo.companyId,
-          storeId: this.loginfo.storeId
-        }
-        console.log(this.wastages)
-        this.getwastages()
-      })
+      console.log(data)
+      this.getwastages()
     })
 
   }

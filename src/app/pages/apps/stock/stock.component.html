@@ -16,7 +16,7 @@
       <div>
         <input class="form-control" placeholder="Select" [(ngModel)]="inputValue" (input)="onInputAutocomplete()"
           [nzAutocomplete]="auto"  style="margin-top: 24px;" />
-        <nz-autocomplete nzBackfill #auto >
+        <nz-autocomplete nzBackfill #auto (selectionChange)="setcategory($event);">
           <nz-auto-option id="{{product.id}}" *ngFor="let product of filterproduct" [nzValue]="product.description">
             {{ product.description }}
           </nz-auto-option>
@@ -33,11 +33,11 @@
         <input type="checkbox" style=" width: 18px; height: calc(1.5em + 0.75rem + 2px);"
           (change)="changefilter($event.target.checked)">
       </div>
-      <!-- <button class="btn btn-primary" (click)="electronPrint()"
+      <button class="btn btn-primary" (click)="electronPrint()"
         style="height: fit-content;margin-top: 19px;margin-right: 31px;">Print</button>
 
       <button class="btn btn-success" (click)="saveBatch()"
-        style="height: fit-content;margin-top: 19px;margin-left: 5px;">save</button> -->
+        style="height: fit-content;margin-top: 19px;margin-left: 5px;">save</button>
 
     </div>
     <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" [nzData]="prod">
